@@ -10,10 +10,14 @@ import MainLayout from "./layout/MainLayout";
 import Header from "./layout/Header";
 import NavLink from "./route/NavLink";
 import Error from "./component/Error/Error";
+import { Color_ctx } from "./component/context/Color_ctx";
+import App_v8 from "./component/Step8/App_v8";
 
 function App() {
   return (
     <>
+      <Color_ctx>
+        
       <BrowserRouter
         future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
       >
@@ -26,10 +30,13 @@ function App() {
             <Route path="app4" element={<App_v5 />} />
             <Route path="app5" element={<App_v7 />} />
             <Route path="app6" element={<App_v9 />} />
+            <Route path="app7" element={<App_v8/>} />
+
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
+      </Color_ctx>
       {/* <Step1 />
       <App_v2 /> 
       <App_v3 />

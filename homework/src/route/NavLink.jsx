@@ -14,6 +14,7 @@ function NavLink() {
         <li><Link  to='app4'>Bài 4</Link></li>
         <li><Link  to='app5'>Bài 5</Link></li>
         <li><Link  to='app6'>Bài 6</Link></li>
+        <li><Link  to='app7'>Bài 7</Link></li>
       </ul>
     </div>
   );
