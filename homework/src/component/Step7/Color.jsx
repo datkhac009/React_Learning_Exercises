@@ -4,7 +4,6 @@ function Color({ setColor ,reset}) {
     <div>
       <input
         type="color"
-        aria-label="custom color"
         onInput={(e) => setColor(e.target.value)}
       />
      {customColor.map((color)=>(

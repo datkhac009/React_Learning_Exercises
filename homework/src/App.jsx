@@ -12,6 +12,7 @@ import NavLink from "./route/NavLink";
 import Error from "./component/Error/Error";
 import { Color_ctx } from "./component/context/Color_ctx";
 import App_v8 from "./component/Step8/App_v8";
+import Counter from "./component/Step10/Counter";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <Route path="app5" element={<App_v7 />} />
             <Route path="app6" element={<App_v9 />} />
             <Route path="app7" element={<App_v8/>} />
-
+            <Route path="app10" element={<Counter />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
