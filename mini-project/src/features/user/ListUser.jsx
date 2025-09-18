@@ -13,7 +13,6 @@ const ListUser = () => {
             <p>fullname: {value.fullname}</p>
             <p>email: {value.email}</p>
             <p>work: {value.work}</p>
-            <p> id:{value.id}</p>
           </div>
           <div>
             <button onClick={() =>  dispatch(editUser(value.id))}>edit</button>

@@ -18,13 +18,13 @@ const user = [
   },
 ];
 function CreateUser() {
-  const [users, setUsers] = useState(user);
+  const users = useState(user);
  const userName =  useSelector((store) => store.user.fullname);
 
   return (
     <>
       <div>
-        <h1>Create User: {userName}</h1>
+        <h1>Form User: {userName}</h1>
         <ListUser user = {users}/>
         <UserForm />
       </div>

@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, saveEdit, setEmail, setFullname, setWork } from "./UserSlice";
-import { useState } from "react";
 
 const UserForm = () => {
-  const { fullname, email,work, status, id ,isEditing} = useSelector(
+  const { fullname, email,work, status ,isEditing} = useSelector(
     (store) => store.user
   );
 
