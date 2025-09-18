@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ListUser.module.css";
-import { editUser } from "./UserSlice";
+import { editUser, removeUser } from "./UserSlice";
 const ListUser = () => {
   const { users } = useSelector((store) => store.user);
   const dispatch =  useDispatch()
@@ -12,11 +12,12 @@ const ListUser = () => {
           <div className={styles.userName}>
             <p>fullname: {value.fullname}</p>
             <p>email: {value.email}</p>
+            <p>work: {value.work}</p>
             <p> id:{value.id}</p>
           </div>
           <div>
             <button onClick={() =>  dispatch(editUser(value.id))}>edit</button>
-            <button>remove</button>
+            <button onClick={() =>  dispatch(removeUser(value.id))}>remove</button>
           </div>
         </div>
       ))}

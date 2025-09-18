@@ -1,19 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, newUser, setEmail, setFullname } from "./UserSlice";
+import { addUser, saveEdit, setEmail, setFullname, setWork } from "./UserSlice";
 import { useState } from "react";
 
 const UserForm = () => {
-  const { fullname, email, status, id ,isEditing} = useSelector(
+  const { fullname, email,work, status, id ,isEditing} = useSelector(
     (store) => store.user
   );
-  console.log("status:",isEditing)
+
+
+  // console.log("status:",isEditing)
   const dispatch = useDispatch();
 
    function handleSubmit(e) {
     e.preventDefault();
     if (!fullname.trim()) return;
-    dispatch(newUser());              // <-- CHỈ GỌI newUser(), KHÔNG truyền { newUser: ... } hay hàm
+    if(!isEditing){
+      
+      dispatch(addUser(fullname.trim(), email.trim() , work.trim()));              
+    }else{
+      dispatch(saveEdit(fullname.trim(), email.trim() , work.trim()))
+    }
+   
   }
+  // console.log(fullname,email)
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -34,9 +43,17 @@ const UserForm = () => {
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
           </div>
+          <div className="work">
+            <label>work</label>
+            <input
+              type="text"
+              value={work}
+              onChange={(e) => dispatch(setWork(e.target.value))}
+            />
+          </div>
         </div>
-
-        <button>{isEditing ? "Edit" : "AddUser"}</button>
+        <button type="submit">{!isEditing ? "Add" : "SaveEdit"}</button>
+        
       </form>
     </div>
   );
