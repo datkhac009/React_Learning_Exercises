@@ -3,6 +3,14 @@
     align-items: center;
     gap: 0.5rem;
 }
-.userName{
-    border: 2px solid #fff;
+
+.userCard {
+  border: 2px solid #555;
+  border-radius: 10px;
+  padding: 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.userCard.success {
+  border-color: #22c55e;               /* xanh success */
+  box-shadow: 0 0 0 3px rgba(34,197,94,.25);
 }

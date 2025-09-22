@@ -23,6 +23,7 @@ const userSlice = createSlice({
     setWork(state, action) {
       state.work = action.payload;
     },
+   
     addUser: {
       prepare(fullname, email ,work) {
         return { payload: { fullname, email ,work} };
@@ -58,12 +59,13 @@ const userSlice = createSlice({
         return { payload: { newName, newEmail ,newWork} };
       },
       reducer(state, action) {
-        const { newName, newEmail } = action.payload;
+        const { newName, newEmail , newWork} = action.payload;
         console.log(newName, newEmail);
         const u = state.users.find((x) => x.id === state.id);
         if (!u) return;
         u.fullname = newName;
         u.email = newEmail;
+        u.work = newWork;
         u.status = state.status;
         state.fullname = "";
         state.email = "";
@@ -77,13 +79,14 @@ const userSlice = createSlice({
       console.log("Done Remove");
       state.users = uRemove;
     },
-    checkStatus(state){
-        const checkUser = state.users.find((u)=> u.id === state.id)
-        state.status = !checkUser.status;
+    checkStatus(state,action){
+        const id = action.payload
+        const checkUser = state.users.find((u)=> u.id === id)
+        checkUser.status = !checkUser.status;
     }
   },
 });
 
-export const { addUser, editUser, setFullname, setEmail,setWork, saveEdit ,removeUser } =
+export const { addUser, editUser, setFullname, setEmail,setWork, saveEdit ,removeUser ,checkStatus} =
   userSlice.actions;
 export default userSlice.reducer;

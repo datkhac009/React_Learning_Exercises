@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+.btn-darkmode{
+  padding: 0px 15px;
+  float: right;
+  
+}
+.btn-darkmode p{
+  font-size: 20px;
+  clear: both;
+}

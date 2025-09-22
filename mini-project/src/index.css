@@ -1,68 +1,95 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ========== Reset nhẹ ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+html, body, #root {
+  height: 100%;
 }
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ========== Theme variables ========== */
+/* LIGHT (mặc định) */
+:root {
+  --bg: #f8fafc;          /* nền trang */
+  --fg: #0f172a;          /* chữ chính */
+  --muted: #64748b;       /* chữ phụ */
+  --card: #ffffff;        /* nền card */
+  --border: #e5e7eb;      /* viền nhạt */
+  --input: #f9fafb;       /* nền input */
+  --shadow: 0 6px 24px rgba(2,6,23,0.06);
+
+  --brand: #2563eb;       /* link / primary */
+  --brand-contrast: #ffffff;
+
+  --btn-solid-bg: #111827; /* nút đen kiểu “pill” như ảnh */
+  --btn-solid-fg: #ffffff;
+  --btn-solid-bg-hover: #0b1220;
+
+  --btn-ghost-fg: #0f172a;
+  --btn-ghost-hover: #e5e7eb;
+
+  --radius: 12px;
+  --space: 16px;
+  --trans: 160ms ease;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* DARK (nếu bạn có toggle body.dark) – không bắt buộc,
+   chỉ để sẵn nếu bật toggle thì tự đổi */
+body.dark {
+  --bg: #0b0f1a;
+  --fg: #e5e7eb;
+  --muted: #9aa4b2;
+  --card: #111827;
+  --border: #1f2937;
+  --input: #0f172a;
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+  --brand: #60a5fa;
+  --brand-contrast: #0b0f1a;
+
+  --btn-solid-bg: #1f2937;
+  --btn-solid-fg: #ffffff;
+  --btn-solid-bg-hover: #111827;
+
+  --btn-ghost-fg: #e5e7eb;
+  --btn-ghost-hover: #162033;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* ========== Base apply ========== */
+body {
+  background: var(--bg);
+  color: var(--fg);
+  transition: background var(--trans), color var(--trans);
 }
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ========== Layout helpers (tùy) ========== */
+.container {
+  width: min(960px, 92%);
+  margin-inline: auto;
+}
+
+/* ========== Card ========== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 1.25);
+  box-shadow: var(--shadow);
+}
+
+/* ========== Inputs ========== */
+input, select,

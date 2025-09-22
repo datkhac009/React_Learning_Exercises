@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import store from "./store.jsx";
+import {ThemectxProvider} from "./features/context/Themectx.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <ThemectxProvider>
+        <App />
+      </ThemectxProvider>
+    </Provider>
+  </StrictMode>
 );
