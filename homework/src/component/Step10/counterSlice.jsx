@@ -17,6 +17,7 @@ const counterSlice = createSlice({
         },
         reduce:{
             reducer(state){
+                if(state.counter <= 0) return;
                 state.counter  -= 1 
             }
 
