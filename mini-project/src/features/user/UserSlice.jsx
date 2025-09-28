@@ -4,10 +4,11 @@ const initialState = {
   users: [],
   fullname: "",
   email: "",
-  work:"",
+  work: "",
   status: false,
   id: null,
   isEditing: false,
+  filterBy: "alluser",
 };
 
 const userSlice = createSlice({
@@ -23,13 +24,13 @@ const userSlice = createSlice({
     setWork(state, action) {
       state.work = action.payload;
     },
-   
+
     addUser: {
-      prepare(fullname, email ,work) {
-        return { payload: { fullname, email ,work} };
+      prepare(fullname, email, work) {
+        return { payload: { fullname, email, work } };
       },
       reducer(state, action) {
-        const { fullname, email ,work} = action.payload;
+        const { fullname, email, work } = action.payload;
         state.fullname = fullname;
         state.email = email;
         state.work = work;
@@ -43,7 +44,7 @@ const userSlice = createSlice({
         state.work = "";
       },
     },
-    editUser(state, action ) {
+    editUser(state, action) {
       const id = action.payload;
       const checkId = state.users.find((x) => x.id === id);
       if (checkId) {
@@ -55,38 +56,55 @@ const userSlice = createSlice({
       }
     },
     saveEdit: {
-      prepare(newName, newEmail ,newWork) {
-        return { payload: { newName, newEmail ,newWork} };
+      prepare(newName, newEmail, newWork) {
+        return { payload: { newName, newEmail, newWork } };
       },
       reducer(state, action) {
-        const { newName, newEmail , newWork} = action.payload;
+        const { newName, newEmail, newWork } = action.payload;
         console.log(newName, newEmail);
         const u = state.users.find((x) => x.id === state.id);
         if (!u) return;
         u.fullname = newName;
         u.email = newEmail;
         u.work = newWork;
-        u.status = state.status;
         state.fullname = "";
         state.email = "";
         state.work = "";
         state.isEditing = false;
       },
     },
-    removeUser(state,action){
+    removeUser(state, action) {
       const id = action.payload;
-      const uRemove = state.users.filter((u)=> u.id !== id);
+      const uRemove = state.users.filter((u) => u.id !== id);
       console.log("Done Remove");
       state.users = uRemove;
+      state.fullname = "";
+      state.email = "";
+      state.work = "";
+      state.isEditing = false;
     },
-    checkStatus(state,action){
-        const id = action.payload
-        const checkUser = state.users.find((u)=> u.id === id)
-        checkUser.status = !checkUser.status;
-    }
+    checkStatus(state, action) {
+      const id = action.payload;
+      const checkUser = state.users.find((u) => u.id === id);
+      if (checkUser) checkUser.status = !checkUser.status;
+    },
+
+    setFilterWork(state, action) {
+      state.filterBy = action.payload;
+        
+    },
   },
 });
 
-export const { addUser, editUser, setFullname, setEmail,setWork, saveEdit ,removeUser ,checkStatus} =
-  userSlice.actions;
+export const {
+  addUser,
+  editUser,
+  setFullname,
+  setEmail,
+  setWork,
+  saveEdit,
+  removeUser,
+  checkStatus,
+  setFilterWork,
+} = userSlice.actions;
 export default userSlice.reducer;

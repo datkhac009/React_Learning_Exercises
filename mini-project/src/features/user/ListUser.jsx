@@ -1,32 +1,32 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "./ListUser.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectFilteredUsers } from "./UserFilterSelector";
 import { checkStatus, editUser, removeUser } from "./UserSlice";
-const ListUser = () => {
-  const { users } = useSelector((store) => store.user);
+
+export default function ListUser() {
   const dispatch = useDispatch();
+  const users = useSelector(selectFilteredUsers);
+
   return (
     <div>
-      {users.map((value) => (
-        <div key={value.id} className={styles.listUser}>
-          <div className={`${styles.userCard} ${value.status ? styles.success : ""}`}>
-            <p>fullname: {value.fullname}</p>
-            <p>email: {value.email}</p>
-            <p>work: {value.work}</p>
-            <input type="checkbox" checked={value.status} onChange={ () =>  dispatch(checkStatus(value.id))}/>
-            {console.log(value.status)}
-          </div>
+      {users.map((u) => (
+        <div key={u.id} className={`userCard ${u.status ? "success" : ""}`}>
+          <p>fullname: {u.fullname}</p>
+          <p>email: {u.email}</p>
+          <p>work: {u.work}</p>
+
+          <input
+            type="checkbox"
+            checked={u.status}
+            onChange={() => dispatch(checkStatus(u.id))}
+          />
+
           <div>
-            <button onClick={() => dispatch(editUser(value.id))}>edit</button>
-            <button onClick={() => dispatch(removeUser(value.id))}>
-              remove
-            </button>
+            <button onClick={() => dispatch(editUser(u.id))}>edit</button>
+            <button onClick={() => dispatch(removeUser(u.id))}>remove</button>
           </div>
         </div>
-        
       ))}
     </div>
   );
-};
-
-export default ListUser;
+}

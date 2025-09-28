@@ -1,25 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, saveEdit, setEmail, setFullname, setWork } from "./UserSlice";
+import {
+  addUser,
+ 
+  saveEdit,
+  setEmail,
+  setFilterWork,
+  setFullname,
+  setWork,
+} from "./UserSlice";
 
 const UserForm = () => {
-  const { fullname, email,work, status ,isEditing} = useSelector(
+  const { fullname, email, work, filterBy, isEditing } = useSelector(
     (store) => store.user
   );
-
 
   // console.log("status:",isEditing)
   const dispatch = useDispatch();
 
-   function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (!fullname.trim()) return;
-    if(!isEditing){
-      
-      dispatch(addUser(fullname.trim(), email.trim() , work.trim()));              
-    }else{
-      dispatch(saveEdit(fullname.trim(), email.trim() , work.trim()))
+    if (!isEditing) {
+      dispatch(addUser(fullname.trim(), email.trim(), work.trim()));
+    } else {
+      dispatch(saveEdit(fullname.trim(), email.trim(), work.trim()));
     }
-   
   }
   // console.log(fullname,email)
   return (
@@ -52,8 +57,15 @@ const UserForm = () => {
           </div>
         </div>
         <button type="submit">{!isEditing ? "Add" : "SaveEdit"}</button>
-        
       </form>
+      <select
+        value={filterBy}
+        onChange={(e) => dispatch(setFilterWork(e.target.value))}
+      >
+        <option value="alluser">AllUser</option>
+        <option value="finished">Finished</option>
+        <option value="nofinished">No Finished</option>
+      </select>
     </div>
   );
 };
