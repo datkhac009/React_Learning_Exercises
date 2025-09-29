@@ -1,10 +1,9 @@
-/* ========== Reset nhẹ ========== */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
 }
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 body {
@@ -12,84 +11,252 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: background 0.5s;
 }
 
-/* ========== Theme variables ========== */
-/* LIGHT (mặc định) */
-:root {
-  --bg: #f8fafc;          /* nền trang */
-  --fg: #0f172a;          /* chữ chính */
-  --muted: #64748b;       /* chữ phụ */
-  --card: #ffffff;        /* nền card */
-  --border: #e5e7eb;      /* viền nhạt */
-  --input: #f9fafb;       /* nền input */
-  --shadow: 0 6px 24px rgba(2,6,23,0.06);
-
-  --brand: #2563eb;       /* link / primary */
-  --brand-contrast: #ffffff;
-
-  --btn-solid-bg: #111827; /* nút đen kiểu “pill” như ảnh */
-  --btn-solid-fg: #ffffff;
-  --btn-solid-bg-hover: #0b1220;
-
-  --btn-ghost-fg: #0f172a;
-  --btn-ghost-hover: #e5e7eb;
-
-  --radius: 12px;
-  --space: 16px;
-  --trans: 160ms ease;
-}
-
-/* DARK (nếu bạn có toggle body.dark) – không bắt buộc,
-   chỉ để sẵn nếu bật toggle thì tự đổi */
-body.dark {
-  --bg: #0b0f1a;
-  --fg: #e5e7eb;
-  --muted: #9aa4b2;
-  --card: #111827;
-  --border: #1f2937;
-  --input: #0f172a;
-  --shadow: 0 10px 30px rgba(0,0,0,0.35);
-
-  --brand: #60a5fa;
-  --brand-contrast: #0b0f1a;
-
-  --btn-solid-bg: #1f2937;
-  --btn-solid-fg: #ffffff;
-  --btn-solid-bg-hover: #111827;
-
-  --btn-ghost-fg: #e5e7eb;
-  --btn-ghost-hover: #162033;
-}
-
-/* ========== Base apply ========== */
-body {
-  background: var(--bg);
-  color: var(--fg);
-  transition: background var(--trans), color var(--trans);
-}
+/* Links */
 a {
-  color: var(--brand);
+  color: #2563eb;
   text-decoration: none;
 }
-a:hover { text-decoration: underline; }
+a:hover {
+  text-decoration: underline;
+}
 
-/* ========== Layout helpers (tùy) ========== */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  #root {
+    padding: 2rem;
+  }
+}
+
+/* Container */
 .container {
-  width: min(960px, 92%);
+  width: min(1100px, 92%);
   margin-inline: auto;
 }
 
-/* ========== Card ========== */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: calc(var(--space) * 1.25);
-  box-shadow: var(--shadow);
+/* Layout CreateUser */
+.formUser {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr; /* mobile: 1 column */
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .formUser {
+    grid-template-columns: 1.3fr 1fr;
+  }
 }
 
-/* ========== Inputs ========== */
-input, select,
+/*Card */
+.userCard {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 24px rgba(2, 6, 23, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.05s ease;
+}
+.userCard ~ div {
+  margin-top: 8px;
+}
+.userCard:hover {
+  border-color: #cbd5e1;
+}
+.userCard p {
+  margin: 4px 0;
+}
+.userCard .meta,
+.userCard small {
+  color: #64748b;
+}
+
+.userCard.success {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.25);
+}
+/* Text-users */
+.formusers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 30%;
+  margin: auto;
+}
+/*checkbox */
+.userCard input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  border: 2px solid green;
+  display: inline-grid;
+  place-content: center;
+  background: transparent;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s, transform 0.05s;
+  cursor: pointer;
+  outline: none;
+}
+.userCard input[type="checkbox"]:hover {
+  transform: translateY(-1px);
+}
+.userCard input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28);
+}
+.userCard input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 12%, 80% 0, 43% 62%);
+  background: #ffffff;
+}
+.userCard input[type="checkbox"]:checked {
+  background: #16a34a;
+  border-color: #16a34a;
+}
+.userCard input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+/* Form */
+.addForm {
+  display: grid;
+  gap: 12px;
+}
+.addForm > div {
+  display: grid;
+  gap: 6px;
+}
+.addForm label {
+  color: #64748b;
+  font-size: 14px;
+}
+
+input[type="text"],
+select {
+  font: inherit;
+  color: inherit;
+  background: #f9fafb;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+option:focus {
+  margin-top: 5rem;
+}
+input[type="text"]::placeholder {
+  color: #94a3b8;
+}
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: green;
+  box-shadow: 0 0 0 4px green;
+}
+
+.select-option:focus {
+  transform: translateY(4px);
+  outline: none;
+  border: 1px solid green;
+}
+
+button {
+  font: inherit;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+button:hover {
+  filter: brightness(1.05);
+}
+button:active {
+  transform: translateY(1px);
+}
+button.danger {
+  background: #ef4444;
+}
+
+/* Layout */
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* STYLE THEME MODE */
+
+body.dark {
+  background: #0b0f1a;
+  color: #e5e7eb;
+}
+body.dark a {
+  color: #60a5fa;
+}
+body.dark .userCard {
+  background: #111827;
+  border-color: #1f2937;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+body.dark .userCard:hover {
+  border-color: #334155;
+}
+body.dark .userCard .meta,
+body.dark .userCard small {
+  color: #9aa4b2;
+}
+
+body.dark input[type="text"],
+body.dark select {
+  background: #0f172a;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+body.dark input[type="text"]::placeholder {
+  color: #94a3b8;
+}
+body.dark input[type="text"]:focus,
+body.dark select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+}
+body.dark button {
+  background: #60a5fa;
+  color: #0b0f1a;
+}
+body.dark button.danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+body.dark .userCard input[type="checkbox"] {
+  border-color: #94a3b8;
+}
+body.dark .userCard input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.28);
+}
+body.dark .userCard input[type="checkbox"]:checked {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+body.dark .userCard:has(input[type="checkbox"]:checked) {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+}

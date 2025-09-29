@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   addUser,
- 
   saveEdit,
   setEmail,
   setFilterWork,
@@ -28,7 +27,7 @@ const UserForm = () => {
   }
   // console.log(fullname,email)
   return (
-    <div>
+    <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="addForm">
           <div className="fullname">
@@ -56,12 +55,12 @@ const UserForm = () => {
             />
           </div>
         </div>
-        <button type="submit">{!isEditing ? "Add" : "SaveEdit"}</button>
+        <div className="row" style={{ marginTop: 12 }}>
+          <button type="submit">{!isEditing ? "Add" : "SaveEdit"}</button>
+        </div>
       </form>
-      <select
-        value={filterBy}
-        onChange={(e) => dispatch(setFilterWork(e.target.value))}
-      >
+
+      <select className="select-option" /* ... */>
         <option value="alluser">AllUser</option>
         <option value="finished">Finished</option>
         <option value="nofinished">No Finished</option>

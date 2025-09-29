@@ -8,10 +8,14 @@ function UserRow({ user }) {
   const dispatch = useDispatch();
   return (
     <div className={styles.listUser}>
-      <div className={`${styles.userCard} ${user.status ? styles.success : ""}`}>
-        <p>fullname: {user.fullname}</p>
-        <p>email: {user.email}</p>
-        <p>work: {user.work}</p>
+      <div
+        className={`${styles.userCard} ${user.status ? styles.success : ""}`}
+      >
+      
+          <p>fullname: {user.fullname}</p>
+          <p>email: {user.email}</p>
+          <p>work: {user.work}</p>
+      
         <input
           type="checkbox"
           checked={user.status}

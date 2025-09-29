@@ -8,12 +8,14 @@ export default function ListUser() {
   const users = useSelector(selectFilteredUsers);
 
   return (
-    <div>
+    <div className="container">
       {users.map((u) => (
         <div key={u.id} className={`userCard ${u.status ? "success" : ""}`}>
-          <p>fullname: {u.fullname}</p>
-          <p>email: {u.email}</p>
-          <p>work: {u.work}</p>
+          <div className="formusers">
+            <p>fullname: {u.fullname}</p>
+            <p>email: {u.email}</p>
+            <p>work: {u.work}</p>
+          </div>
 
           <input
             type="checkbox"
