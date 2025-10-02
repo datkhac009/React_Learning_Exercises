@@ -60,7 +60,10 @@ const UserForm = () => {
         </div>
       </form>
 
-      <select className="select-option" /* ... */>
+      <select
+        className="select-option"
+        onChange={(e) => dispatch(setFilterWork(e.target.value))}
+      >
         <option value="alluser">AllUser</option>
         <option value="finished">Finished</option>
         <option value="nofinished">No Finished</option>

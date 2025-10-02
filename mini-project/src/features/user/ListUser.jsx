@@ -6,7 +6,7 @@ import { checkStatus, editUser, removeUser } from "./UserSlice";
 export default function ListUser() {
   const dispatch = useDispatch();
   const users = useSelector(selectFilteredUsers);
-
+console.log(users)
   return (
     <div className="container">
       {users.map((u) => (
