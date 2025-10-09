@@ -9,7 +9,7 @@ import {
 } from "./UserSlice";
 
 const UserForm = () => {
-  const { fullname, email, work, filterBy, isEditing } = useSelector(
+  const { fullname, email, work, isEditing } = useSelector(
     (store) => store.user
   );
 

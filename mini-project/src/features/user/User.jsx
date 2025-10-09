@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { checkStatus, editUser, removeUser } from "./UserSlice";
 import styles from "./ListUser.module.css";
 
-function UserRow({ user }) {
+function User({ user }) {
   const dispatch = useDispatch();
   return (
     <div className={styles.listUser}>
@@ -30,4 +30,4 @@ function UserRow({ user }) {
   );
 }
 
-export default React.memo(UserRow);
+export default React.memo(User);
