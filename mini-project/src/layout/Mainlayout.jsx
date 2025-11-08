@@ -8,7 +8,7 @@ function Mainlayout() {
         <div>
             <header>
             <ToggleDarkMode />
-                <NavBar />
+            <NavBar />
             </header>
             <main>
             <Outlet />
