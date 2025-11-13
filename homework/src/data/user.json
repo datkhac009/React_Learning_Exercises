@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Lê Minh Hoàng",
+      "username": "lmhoang",
+      "email": "lmhoang@example.com",
+      "avatar": "https://i.pravatar.cc/150?img=12",
+      "createdAt": "2025-09-01T10:23:00+07:00",
+      "lastLogin": "2025-09-15T18:42:00+07:00",
+      "status": "active",
+      "role": "user",
+      "bio": "Frontend developer who loves React, coffee, and clean UI.",
+      "address": { "city": "Hanoi", "country": "Vietnam" },
+      "phone": "+84-912-345-678",
+      "postsCount": 42
+    },
+    {
+      "id": 2,
+      "fullName": "Trần Thị Mỹ Linh",
+      "username": "tlinh",
+      "email": "tlinh@example.com",
+      "avatar": "https://i.pravatar.cc/150?img=47",
+      "createdAt": "2025-06-12T09:10:00+07:00",
+      "lastLogin": "2025-09-14T08:05:00+07:00",
+      "status": "inactive",
+      "role": "moderator",
+      "bio": "UX designer who sketches interfaces in her free time.",
+      "address": { "city": "Da Nang", "country": "Vietnam" },
+      "phone": "+84-903-222-333",
+      "postsCount": 18
+    },
+    {
+      "id": 3,
+      "fullName": "Phạm Văn Đức",
+      "username": "pvduc",
+      "email": "pvduc@example.com",
+      "avatar": "https://i.pravatar.cc/150?img=5",
+      "createdAt": "2024-12-05T15:40:00+07:00",
+      "lastLogin": "2025-09-16T09:05:00+07:00",
+      "status": "active",
+      "role": "admin",
+      "bio": "Backend tinkerer & API fan — loves optimizing endpoints.",
+      "address": { "city": "Ho Chi Minh City", "country": "Vietnam" },
+      "phone": "+84-988-111-222",
+      "postsCount": 94
+    }
+  ]
+}

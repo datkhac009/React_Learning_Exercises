@@ -4,8 +4,10 @@ const initialState = {
   users: [],
   fullname: "",
   email: "",
-  work: "",
+  title: "",
+  description:"",
   status: false,
+  deadline :"",
   id: null,
   isEditing: false,
   filterBy: "alluser",
@@ -15,78 +17,84 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setFullname(state, action) {
-      state.fullname = action.payload;
+    // setFullname(state, action) {
+    //   state.fullname = action.payload;
+    // },
+    // setEmail(state, action) {
+    //   state.email = action.payload;
+    // },
+    setTitle(state, action) {
+      state.title = action.payload;
     },
-    setEmail(state, action) {
-      state.email = action.payload;
+    setDescription(state,action){
+      state.description = action.payload;
     },
-    setWork(state, action) {
-      state.work = action.payload;
+    setDeadline(state,action){
+      state.deadline = action.payload;
     },
 
-    addUser: {
-      prepare(fullname, email, work) {
-        return { payload: { fullname, email, work } };
+    addListWork: {
+      prepare(title, description, deadline) {
+        return { payload: { title, description, deadline} };
       },
       reducer(state, action) {
-        const { fullname, email, work } = action.payload;
-        state.fullname = fullname;
-        state.email = email;
-        state.work = work;
+        const { title, description, deadline } = action.payload;
+        state.title = title;
+        state.description = description;
+        state.deadline = deadline;
         state.status = false;
         state.users = [
           ...state.users,
-          { fullname, email, work, status: false, id: crypto.randomUUID() },
+          { title, description, deadline, status: false, id: crypto.randomUUID() },
         ];
-        state.fullname = "";
-        state.email = "";
-        state.work = "";
+        state.title = "";
+        state.description = "";
+        state.deadline = "";
       },
     },
-    editUser(state, action) {
+    editListWork(state, action) {
       const id = action.payload;
       const checkId = state.users.find((x) => x.id === id);
       if (checkId) {
         state.id = id;
-        state.fullname = checkId.fullname;
-        state.email = checkId.email;
-        state.work = checkId.work;
+        state.title = checkId.title;
+        state.description = checkId.description;
+        state.deadline = checkId.deadline;
         state.isEditing = true;
       }
     },
     saveEdit: {
-      prepare(newName, newEmail, newWork) {
-        return { payload: { newName, newEmail, newWork } };
+      prepare(newTitle, newDescription, newDeadline) {
+        return { payload: { newTitle, newDescription, newDeadline } };
       },
       reducer(state, action) {
-        const { newName, newEmail, newWork } = action.payload;
-        console.log(newName, newEmail);
+        const { newTitle, newDescription, newDeadline } = action.payload;
+        // console.log(newName, newEmail);
         const u = state.users.find((x) => x.id === state.id);
         if (!u) return;
-        u.fullname = newName;
-        u.email = newEmail;
-        u.work = newWork;
-        state.fullname = "";
-        state.email = "";
-        state.work = "";
+        u.title = newTitle;
+        u.description = newDescription;
+        u.deadline = newDeadline;
+        state.title = "";
+        state.description = "";
+        state.deadline = "";
         state.isEditing = false;
       },
     },
-    removeUser(state, action) {
+    removeWork(state, action) {
       const id = action.payload;
       const uRemove = state.users.filter((u) => u.id !== id);
       console.log("Done Remove");
       state.users = uRemove;
-      state.fullname = "";
-      state.email = "";
-      state.work = "";
+      state.title = "";
+      state.description = "";
+      state.deadline = "";
       state.isEditing = false;
     },
     checkStatus(state, action) {
       const id = action.payload;
-      const checkUser = state.users.find((u) => u.id === id);
-      if (checkUser) checkUser.status = !checkUser.status;
+      const checkDeadline = state.users.find((u) => u.id === id);
+      if (checkDeadline) checkDeadline.status = !checkDeadline.status;
     },
 
     setFilterWork(state, action) {
@@ -97,13 +105,13 @@ const userSlice = createSlice({
 });
 
 export const {
-  addUser,
-  editUser,
-  setFullname,
-  setEmail,
-  setWork,
+  addListWork,
+  editListWork,
+  setTitle,
+  setDescription,
+  setDeadline,
   saveEdit,
-  removeUser,
+  removeWork,
   checkStatus,
   setFilterWork,
 } = userSlice.actions;

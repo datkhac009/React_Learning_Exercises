@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addUser,
+  addListWork,
   saveEdit,
-  setEmail,
+  setDeadline,
+  setDescription,
   setFilterWork,
-  setFullname,
-  setWork,
+  setTitle,
+
 } from "./UserSlice";
 
 const UserForm = () => {
-  const { fullname, email, work, isEditing } = useSelector(
+  const { title, description, deadline, isEditing } = useSelector(
     (store) => store.user
   );
 
@@ -18,11 +19,11 @@ const UserForm = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!fullname.trim()) return;
+    if (!title.trim()) return;
     if (!isEditing) {
-      dispatch(addUser(fullname.trim(), email.trim(), work.trim()));
+      dispatch(addListWork(title.trim(), description.trim(), deadline.trim()));
     } else {
-      dispatch(saveEdit(fullname.trim(), email.trim(), work.trim()));
+      dispatch(saveEdit(title.trim(), description.trim(), deadline.trim()));
     }
   }
   // console.log(fullname,email)
@@ -31,27 +32,27 @@ const UserForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="addForm">
           <div className="fullname">
-            <label>fullname</label>
+            <label>Title</label>
             <input
               type="text"
-              value={fullname}
-              onChange={(e) => dispatch(setFullname(e.target.value))}
+              value={title}
+              onChange={(e) => dispatch(setTitle(e.target.value))}
             />
           </div>
           <div className="email">
-            <label>email</label>
+            <label>Description</label>
             <input
               type="text"
-              value={email}
-              onChange={(e) => dispatch(setEmail(e.target.value))}
+              value={description}
+              onChange={(e) => dispatch(setDescription(e.target.value))}
             />
           </div>
           <div className="work">
-            <label>work</label>
+            <label>Deadline</label>
             <input
-              type="text"
-              value={work}
-              onChange={(e) => dispatch(setWork(e.target.value))}
+              type="time"
+              value={deadline}
+              onChange={(e) => dispatch(setDeadline(e.target.value))}
             />
           </div>
         </div>

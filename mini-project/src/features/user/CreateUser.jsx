@@ -4,7 +4,7 @@ import UserForm from "./UserForm";
 function CreateUser() {
   return (
     <div className="container">
-      <h1>Form User</h1>
+      <h1>Form Manage Work</h1>
       <div className="formUser">
         <ListUser />
         <UserForm />

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectFilteredUsers } from "./UserFilterSelector";
-import { checkStatus, editUser, removeUser } from "./UserSlice";
+import { checkStatus, editListWork,  removeWork} from "./UserSlice";
 
 export default function ListUser() {
   const dispatch = useDispatch();
@@ -12,9 +12,9 @@ console.log(users)
       {users.map((u) => (
         <div key={u.id} className={`userCard ${u.status ? "success" : ""}`}>
           <div className="formusers">
-            <p>fullname: {u.fullname}</p>
-            <p>email: {u.email}</p>
-            <p>work: {u.work}</p>
+            <p>fullname: {u.title}</p>
+            <p>email: {u.description}</p>
+            <p>work: {u.deadline}</p>
           </div>
 
           <input
@@ -24,8 +24,8 @@ console.log(users)
           />
 
           <div>
-            <button onClick={() => dispatch(editUser(u.id))}>edit</button>
-            <button onClick={() => dispatch(removeUser(u.id))}>remove</button>
+            <button onClick={() => dispatch(editListWork(u.id))}>edit</button>
+            <button onClick={() => dispatch(removeWork(u.id))}>remove</button>
           </div>
         </div>
       ))}

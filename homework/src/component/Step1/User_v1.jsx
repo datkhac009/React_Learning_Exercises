@@ -1,9 +1,10 @@
-function User_v1({dataUser,increase ,age}) {
+function User_v1({dataUser,age ,test ,setCount}) {
+    console.log(test)
     console.log(dataUser)
     return (
         <div>
             <p>User name: {dataUser.name}</p>
-            <p>Age: {age} <button onClick={increase}> + </button></p>
+            <p>Age: {age} <button onClick={() => setCount((prev)=> prev + 1)}> + </button></p>
         </div>
     )
 }
