@@ -1,13 +1,13 @@
-import ListUser from "./ListUser";
-import UserForm from "./UserForm";
+import ListWork from "./ListWork";
+import WorkForm from "./WorkForm";
 
 function CreateUser() {
   return (
-    <div className="container">
+    <div>
       <h1>Form Manage Work</h1>
       <div className="formUser">
-        <ListUser />
-        <UserForm />
+        <ListWork />
+        <WorkForm />
       </div>
     </div>
   );

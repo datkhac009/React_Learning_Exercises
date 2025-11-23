@@ -1,0 +1,37 @@
+.navbar {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* Style cho các link */
+.navbar a {
+  position: relative;
+  color: #4a90e2;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  transition: color 0.5s ease;
+}
+.navbar a:hover {
+  color: #2171d6;
+  font-weight: 600;
+}
+.navbar a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #4a90e2;
+  transition: width 0.5s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+
+}

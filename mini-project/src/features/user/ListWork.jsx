@@ -1,27 +1,22 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectFilteredUsers } from "./UserFilterSelector";
-import { checkStatus, editListWork,  removeWork} from "./UserSlice";
+import { selectFilteredDeadLineStatus } from "./FilterDeadlineAndStatusSelector";
+import { editListWork, removeWork } from "./WorkSlice";
+import { formatDate } from "../../utils/date";
 
-export default function ListUser() {
+export default function ListWork() {
   const dispatch = useDispatch();
-  const users = useSelector(selectFilteredUsers);
-console.log(users)
+  const work = useSelector(selectFilteredDeadLineStatus);
   return (
     <div className="container">
-      {users.map((u) => (
+      {work.map((u) => (
         <div key={u.id} className={`userCard ${u.status ? "success" : ""}`}>
           <div className="formusers">
-            <p>fullname: {u.title}</p>
-            <p>email: {u.description}</p>
-            <p>work: {u.deadline}</p>
+            <p>Title: {u.title}</p>
+            <p>Description: {u.description}</p>
+            <p>Deadline: {formatDate(u.deadline)}</p>
+            <p>Status Work: {u.statusWork}</p>
           </div>
-
-          <input
-            type="checkbox"
-            checked={u.status}
-            onChange={() => dispatch(checkStatus(u.id))}
-          />
 
           <div>
             <button onClick={() => dispatch(editListWork(u.id))}>edit</button>

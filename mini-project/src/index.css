@@ -1,277 +1,700 @@
+/* =================== RESET & BASE =================== */
+
 * {
   box-sizing: border-box;
 }
-html,
-body,
-#root {
-  height: 100%;
-}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-    "Apple Color Emoji", "Segoe UI Emoji";
-  line-height: 1.5;
-  background: #f8fafc;
-  color: #0f172a;
-  transition: background 0.5s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  color: #1a202c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Links */
+/* =================== LINKS =================== */
+
 a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+a:hover {
   color: #2563eb;
   text-decoration: none;
 }
-a:hover {
-  text-decoration: underline;
-}
+
+/* =================== ROOT CONTAINER =================== */
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem;
-}
-@media (min-width: 640px) {
-  #root {
-    padding: 2rem;
-  }
-  header{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-}
-@media (min-width: 360px) {
-  #root {
-    padding: 2rem;
-  }
-  header{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
+  padding: 2rem 1rem 3rem;
+  margin-bottom: 5rem;
 }
 
-/* Container */
-.container {
+#root > div {
   width: min(1100px, 92%);
   margin-inline: auto;
+  text-align: center;
 }
 
-/* Layout CreateUser */
-.formUser {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 1fr; /* mobile: 1 column */
-  align-items: start;
-}
-@media (min-width: 768px) {
-  .formUser {
-    grid-template-columns: 1.3fr 1fr;
-  }
+#root > div > h1 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
 }
 
-/*Card */
+#root > div > button {
+  margin-top: 1rem;
+}
+
+/* =================== HOME PAGE (Home.jsx) =================== */
+
+.home {
+  width: min(1100px, 100%);
+  margin-inline: auto;
+  margin-top: 2rem;
+}
+
+/* -------------------- Header Section -------------------- */
+
+.home-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.home-header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.home-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.home-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  margin: 0 4px;
+}
+
+/* -------------------- Filter Section -------------------- */
+
+.home-header-right {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-header-right select {
+  font: inherit;
+  color: #1e293b;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  padding: 10px 16px;
+  min-width: 200px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-header-right select:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.home-header-right select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* -------------------- Work List Section -------------------- */
+
+.home-list {
+  max-width: 500px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* -------------------- Work Card Component -------------------- */
+
+.work-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 2px solid #e2e8f0;
+  padding: 24px 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+}
+
+.work-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.work-card:hover::before {
+  opacity: 1;
+}
+
+.work-card--success {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.work-card--success::before {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  opacity: 1;
+}
+
+.work-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.work-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.work-card-top {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.work-card-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+/* -------------------- Status Badge Component -------------------- */
+.work-status {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #f1f5f9;
+  color: #475569;
+  margin: 0;
+}
+
+.work-status--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.work-status--inprogress,
+.work-status--in-progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.work-status--completed {
+  background: #d1fae5;
+  color: #00b481;
+}
+
+.work-status--default {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.work-card-desc {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.7;
+  padding-top: 4px;
+}
+
+.work-card-deadline {
+  margin: 0;
+  font-size: 1rem;
+  color: #94a3b8;
+  font-weight: 700;
+  padding-top: 4px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* -------------------- Show More Button -------------------- */
+
+.home-showMore {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.btnShowMore {
+  background: transparent;
+  color: #3b82f6;
+  border: none;
+  padding: 8px 8px;
+  border-radius: 99%;
+  margin: 0;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* =================== USER CARD COMPONENT (ListUser.jsx) =================== */
+
 .userCard {
   background: #ffffff;
-  border: 2px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 6px 24px rgba(2, 6, 23, 0.06);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.05s ease;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin: 12px auto;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  text-align: left;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
-.userCard ~ div {
-  margin-top: 8px;
+
+.userCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
+
+.userCard:hover::before {
+  opacity: 1;
+}
+
 .userCard:hover {
   border-color: #cbd5e1;
-}
-.userCard p {
-  margin: 4px 0;
-}
-.userCard .meta,
-.userCard small {
-  color: #64748b;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
 }
 
 .userCard.success {
-  border-color: #16a34a;
-  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.25);
+  border-color: #10b981;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
 }
-/* Text-users */
+
+.userCard.success::before {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  opacity: 1;
+}
+
 .formusers {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 50%;
-  margin: auto;
-}
-/*checkbox */
-.userCard input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  appearance: none;
-  border: 2px solid green;
-  display: inline-grid;
-  place-content: center;
-  background: transparent;
-  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s, transform 0.05s;
-  cursor: pointer;
-  outline: none;
-}
-.userCard input[type="checkbox"]:hover {
-  transform: translateY(-1px);
-}
-.userCard input[type="checkbox"]:focus {
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28);
-}
-.userCard input[type="checkbox"]::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  transform: scale(0);
-  transition: transform 0.15s ease-in-out;
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 12%, 80% 0, 43% 62%);
-  background: #ffffff;
-}
-.userCard input[type="checkbox"]:checked {
-  background: #16a34a;
-  border-color: #16a34a;
-}
-.userCard input[type="checkbox"]:checked::before {
-  transform: scale(1);
-}
-
-/* Form */
-.addForm {
-  display: grid;
-  gap: 12px;
-}
-.addForm > div {
-  display: grid;
   gap: 6px;
 }
-.addForm label {
-  color: #64748b;
-  font-size: 14px;
+
+.formusers p {
+  margin: 0;
+  font-size: 0.95rem;
 }
+
+.formusers p:first-child {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.formusers p:nth-child(3) {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* =================== FORM ELEMENTS (UserForm.jsx) =================== */
 
 input[type="text"],
 select {
   font: inherit;
-  color: inherit;
-  background: #f9fafb;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 10px 12px;
+  color: #1e293b;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 11px 16px;
+  min-width: 200px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
-option:focus {
-  margin-top: 5rem;
-}
+
 input[type="text"]::placeholder {
   color: #94a3b8;
 }
+
 input[type="text"]:focus,
 select:focus {
   outline: none;
-  border-color: green;
-  box-shadow: 0 0 0 4px green;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.select-option:focus {
-  transform: translateY(4px);
-  outline: none;
-  border: 1px solid green;
+#root > div select {
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+/* -------------------- Buttons (Add, Edit, Remove) -------------------- */
 
 button {
   font: inherit;
   color: #ffffff;
-  background: #2563eb;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 11px 24px;
+  border-radius: 12px;
   cursor: pointer;
-  margin-right: 8px;
-  transition: transform 0.05s ease, filter 0.15s ease;
+  margin: 10px 6px 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  transition: all 0.2s ease;
 }
+
 button:hover {
-  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+  filter: none;
 }
+
 button:active {
-  transform: translateY(1px);
+  transform: translateY(0);
 }
+
 button.danger {
-  background: #ef4444;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
 }
 
-/* Layout */
-.row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.grid {
-  display: grid;
-  gap: 12px;
+button.danger:hover {
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
 }
 
-/* STYLE THEME MODE */
+/* =================== DARK MODE =================== */
 
 body.dark {
-  background: #0b0f1a;
-  color: #e5e7eb;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
 }
-body.dark a {
+
+/* -------------------- Home Page Dark Mode -------------------- */
+
+body.dark .home-header {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+body.dark .home-title {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.dark .home-subtitle {
+  color: #94a3b8;
+}
+
+body.dark .home-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+body.dark .home-header-right select {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark .home-header-right select:hover {
+  border-color: #475569;
+}
+
+body.dark .home-header-right select:focus {
+  border-color: #3b82f6;
+}
+
+body.dark .work-card {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .work-card--success {
+  background: linear-gradient(135deg, #1e293b 0%, #1a3a2e 100%);
+}
+
+body.dark .work-card-title {
+  color: #e2e8f0;
+}
+
+body.dark .work-card-desc {
+  color: #94a3b8;
+}
+
+body.dark .work-card-deadline {
+  color: #64748b;
+}
+
+body.dark .btnShowMore {
   color: #60a5fa;
 }
+
+/* -------------------- Create Work Page Dark Mode -------------------- */
+
 body.dark .userCard {
-  background: #111827;
-  border-color: #1f2937;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
-body.dark .userCard:hover {
+  background: #1e293b;
   border-color: #334155;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-body.dark .userCard .meta,
-body.dark .userCard small {
-  color: #9aa4b2;
+
+body.dark .userCard.success {
+  background: linear-gradient(135deg, #1e293b 0%, #1a3a2e 100%);
 }
+
+body.dark .userCard:hover {
+  border-color: #475569;
+}
+
+body.dark .formusers p:first-child {
+  color: #e2e8f0;
+}
+
+/* -------------------- Form Elements Dark Mode -------------------- */
 
 body.dark input[type="text"],
 body.dark select {
-  background: #0f172a;
-  border-color: #1f2937;
-  color: #e5e7eb;
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
 }
+
 body.dark input[type="text"]::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
+
 body.dark input[type="text"]:focus,
 body.dark select:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
+
+/* -------------------- Buttons Dark Mode -------------------- */
+
 body.dark button {
-  background: #60a5fa;
-  color: #0b0f1a;
-}
-body.dark button.danger {
-  background: #ef4444;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: #ffffff;
 }
-body.dark .userCard input[type="checkbox"] {
-  border-color: #94a3b8;
+
+body.dark button.danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
-body.dark .userCard input[type="checkbox"]:focus {
-  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.28);
+
+/* -------------------- Links Dark Mode -------------------- */
+
+body.dark a {
+  color: #60a5fa;
 }
-body.dark .userCard input[type="checkbox"]:checked {
-  background: #22c55e;
-  border-color: #22c55e;
+
+body.dark a:hover {
+  color: #93c5fd;
 }
-body.dark .userCard:has(input[type="checkbox"]:checked) {
-  border-color: #22c55e;
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+/* -------------------- Responsive App -------------------- */
+
+
+@media (min-width: 1025px) {
+  .home-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home-header-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .home-header-right {
+    flex-wrap: nowrap;
+  }
+  
+  .home-list {
+    max-width: 550px;
+  }
+}
+@media (min-width: 641px){
+  #root {
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+
+  #root > div {
+    width: 95%;
+  }
+
+  .home-header {
+    padding: 1.75rem;
+  }
+
+  .home-title {
+    font-size: 2.25rem;
+  }
+
+  .home-header-right {
+    gap: 0.875rem;
+  }
+
+  .home-header-right select {
+    min-width: 180px;
+  }
+
+  .home-list {
+    max-width: 600px;
+  }
+
+  .work-card {
+    padding: 22px 26px;
+  }
+
+  .userCard {
+    max-width: 700px;
+    padding: 22px 26px;
+  }
+
+  .btn-darkmode {
+    top: 25px;
+    right: 25px;
+    width: 55px;
+    height: 55px;
+  }
+
+  .btn-darkmode p {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 900px)  {
+  .home-header {
+    flex-direction: row;
+    padding: 1.25rem;
+  }
+  
+  .home-header-left {
+    align-items: flex-start;
+  }
+  
+  .home-title {
+    font-size: 1.5rem;
+  }
+  
+  .home-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 374px) {
+  .home-title {
+    font-size: 1.5rem;
+  }
+
+  .home-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .work-card {
+    padding: 16px 18px;
+  }
+
+  .work-card-title {
+    font-size: 1rem;
+  }
+
+  .work-card-desc {
+    font-size: 0.85rem;
+  }
+  .work-card-top {
+    flex-direction: column;
+  }
+  .btn-darkmode {
+    width: 45px;
+    height: 45px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .btn-darkmode p {
+    font-size: 20px;
+  }
 }

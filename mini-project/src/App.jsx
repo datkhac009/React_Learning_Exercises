@@ -3,11 +3,29 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Mainlayout from './layout/Mainlayout'
 import Home from './features/ui/Home'
-import CreateUser from './features/user/CreateUser'
+import CreateUser from './features/user/CreateWork'
 import PageError from './features/ui/PageError'
-import Login from './features/login/Login'
+import { useLocalStorage } from './features/hook/useLocalStorage'
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react'
+import { setInitialUsers } from './features/user/WorkSlice'
 
 function App() {
+    const [valueWork,setValueWork] = useLocalStorage([],"work")
+    const dispatch =  useDispatch()
+    const work = useSelector((s) => s.user.users)
+
+    useEffect(() => {
+      if(valueWork && valueWork.length > 0){
+        dispatch(setInitialUsers(valueWork))
+      }
+       // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+
+    useEffect(() => {
+        setValueWork(work)
+    },[work,setValueWork])
+
 
     const router = createBrowserRouter([
         
@@ -34,11 +52,7 @@ function App() {
         ]
 
       },
-      {
-            index:true,
-            path:"/login",
-            element:<Login />
-          },
+      
     ])
   return (<RouterProvider router={router}/>)
 }
