@@ -8,7 +8,7 @@
 
 .form-container {
   width: min(550px, 100%);
-  margin: 0 auto;
+  margin: 12px auto;
 }
 
 .user-form {

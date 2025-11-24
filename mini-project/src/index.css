@@ -1,8 +1,9 @@
-/* =================== RESET & BASE =================== */
+/* =================== All =================== */
 
 * {
   box-sizing: border-box;
 }
+/* =================== Body =================== */
 
 body {
   margin: 0;
@@ -29,7 +30,7 @@ a:hover {
   text-decoration: none;
 }
 
-/* =================== ROOT CONTAINER =================== */
+/* =================== ROOT  =================== */
 
 #root {
   max-width: 1280px;
@@ -61,7 +62,7 @@ a:hover {
   margin-top: 2rem;
 }
 
-/* -------------------- Header Section -------------------- */
+/* -------------------- Header -------------------- */
 
 .home-header {
   display: flex;
@@ -114,7 +115,7 @@ a:hover {
   margin: 0 4px;
 }
 
-/* -------------------- Filter Section -------------------- */
+/* -------------------- Filter Status Work -------------------- */
 
 .home-header-right {
   display: flex;
@@ -228,7 +229,7 @@ a:hover {
   line-height: 1.3;
 }
 
-/* -------------------- Status Component -------------------- */
+/* -------------------- Status Work -------------------- */
 .work-status {
   align-self: flex-start;
   padding: 6px 14px;
@@ -383,7 +384,7 @@ a:hover {
   font-weight: 500;
 }
 
-/* =================== FORM ELEMENTS (UserForm.jsx) =================== */
+/* =================== FORM (UserForm.jsx) =================== */
 
 input[type="text"],
 select {
@@ -458,7 +459,7 @@ body.dark {
   color: #e2e8f0;
 }
 
-/* -------------------- Home Page Dark Mode -------------------- */
+/* -------------------- HomePage Dark Mode -------------------- */
 
 body.dark .home-header {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
@@ -519,7 +520,7 @@ body.dark .btnShowMore {
   color: #60a5fa;
 }
 
-/* -------------------- Create Work Page Dark Mode -------------------- */
+/* -------------------- Create Work Dark Mode -------------------- */
 
 body.dark .userCard {
   background: #1e293b;
@@ -539,7 +540,7 @@ body.dark .formusers p:first-child {
   color: #e2e8f0;
 }
 
-/* -------------------- Form Elements Dark Mode -------------------- */
+/* -------------------- Form Dark Mode -------------------- */
 
 body.dark input[type="text"],
 body.dark select {
