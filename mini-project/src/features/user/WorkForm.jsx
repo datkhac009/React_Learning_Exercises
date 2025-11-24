@@ -42,6 +42,7 @@ const UserForm = () => {
               value={title}
               onChange={(e) => dispatch(setTitle(e.target.value))}
               placeholder="Enter task title"
+              required
             />
           </div>
 
@@ -53,6 +54,7 @@ const UserForm = () => {
               value={description}
               onChange={(e) => dispatch(setDescription(e.target.value))}
               placeholder="Enter task description"
+              required
             />
           </div>
 
@@ -65,6 +67,7 @@ const UserForm = () => {
               min={todayStr}
               max="9999-12-31"
               onChange={(e) => dispatch(setDeadline(e.target.value))}
+              required
             />
           </div>
 
