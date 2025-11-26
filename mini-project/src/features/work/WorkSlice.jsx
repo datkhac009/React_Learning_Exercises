@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
-  fullname: "",
-  email: "",
   title: "",
   description: "",
   statusWork: "Haven't started yet",
@@ -91,7 +89,6 @@ const WorkSlice = createSlice({
       reducer(state, action) {
         const { newTitle, newDescription, newDeadline, newsSatusWork } =
           action.payload;
-        // console.log(newName, newEmail);
         const u = state.users.find((x) => x.id === state.id);
         if (!u) return;
         u.title = newTitle;

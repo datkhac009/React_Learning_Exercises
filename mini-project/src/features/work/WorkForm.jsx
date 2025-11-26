@@ -29,7 +29,6 @@ const UserForm = () => {
       );
     }
   }
-  // console.log(fullname,email)
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="user-form">
