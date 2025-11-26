@@ -34,7 +34,7 @@ function App() {
         children :[
           {
             path:"/",
-            element:<Navigate to="/homepage"/>//sau sẽ để login hiện ra đầu khi sau khi mount
+            element:<Navigate to="/homepage"/>
           },
           {
             path :"/homepage",
