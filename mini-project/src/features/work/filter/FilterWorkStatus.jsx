@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterStatusWork } from "../user/WorkSlice";
+import { setFilterStatusWork } from "../WorkSlice";
 
 function FilterWorkStatus() {
   const dispatch = useDispatch();

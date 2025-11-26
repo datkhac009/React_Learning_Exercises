@@ -2,13 +2,13 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Mainlayout from './layout/Mainlayout'
-import Home from './features/ui/Home'
-import CreateUser from './features/user/CreateWork'
+import Home from './features/pages/Home';
+import CreateUser from './features/work/CreateWork';
 import PageError from './features/ui/PageError'
 import { useLocalStorage } from './features/hook/useLocalStorage'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react'
-import { setInitialUsers } from './features/user/WorkSlice'
+import { setInitialUsers } from './features/work/WorkSlice'
 
 function App() {
     const [valueWork,setValueWork] = useLocalStorage([],"work")

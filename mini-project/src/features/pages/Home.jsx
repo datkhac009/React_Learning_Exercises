@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import FilterWorkStatus from "../component/FilterWorkStatus";
-import { selectFilteredDeadLineStatus } from "../user/FilterDeadlineAndStatusSelector";
-import { setFilterDeadline, setShowWorkLimit } from "../user/WorkSlice";
 import { TimeDeadline } from "../../utils/date";
 import { getStatusClass } from "../../utils/status";
+import FilterWorkStatus from './../work/filter/FilterWorkStatus';
+import { selectFilteredDeadLineStatus } from "../work/filter/FilterDeadlineAndStatusSelector";
+import { setFilterDeadline, setShowWorkLimit } from "../work/WorkSlice";
 
 function Home() {
   const dispatch = useDispatch();

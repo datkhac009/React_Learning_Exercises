@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectFilteredDeadLineStatus } from "./FilterDeadlineAndStatusSelector";
+import { selectFilteredDeadLineStatus } from "./filter/FilterDeadlineAndStatusSelector";
 import { editListWork, removeWork } from "./WorkSlice";
 import { formatDate } from "../../utils/date";
 
