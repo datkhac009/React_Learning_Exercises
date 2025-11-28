@@ -17,7 +17,7 @@ function App() {
 
     useEffect(() => {
       if(valueWork && valueWork.length > 0){
-        dispatch(setInitialUsers(valueWork))
+        dispatch(setInitialUsers(valueWork))//nếu có dữ liệu từ local thì data của local sẽ được lưu vào trong users
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])

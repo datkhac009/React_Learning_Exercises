@@ -5,7 +5,7 @@ export function useLocalStorage(initialState, key) {
     const storeValue = localStorage.getItem(key);
     return storeValue ? JSON.parse(storeValue) : initialState;
   });
-
+  //tự đọng thay update khi value thay đổi
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
   }, [value, key]);

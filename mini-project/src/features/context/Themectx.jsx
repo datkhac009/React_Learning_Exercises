@@ -10,7 +10,7 @@ function ThemectxProvider({ children }) {
     setMode((m) => !m);
   }
 
-  const value = useMemo(() => ({ mode, toggler }), [mode]);
+  const value = useMemo(() => ({ mode, toggler }), [mode]);//để tránh tạo object mới mỗi lần re-render nếu mode không đổi
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );

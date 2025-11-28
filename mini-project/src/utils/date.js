@@ -25,7 +25,7 @@ export function daysUntil(deadlineStr){
     )
     const diff = getTimeDeadline.getTime() - getTimeToday.getTime()
 
-     return Math.ceil(diff / (1000 * 60 * 60 * 24));
+     return Math.ceil(diff / (1000 * 60 * 60 * 24));//làm tròn số ngày deadline
 }
 
  export function TimeDeadline(deadline) {
