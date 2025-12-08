@@ -7,13 +7,14 @@ import {
   TableRow,
 } from "@mui/material";
 import Spinner from "../../components/Spinner";
+import { formatDate } from "../../utils/date";
 
 function ProductTable({ products, loading }) {
     console.log(loading)
   if (loading) return <Spinner />
 
   return (
-    <TableContainer sx={{ maxHeight: 600 }}>
+    <TableContainer sx={{ maxHeight: 400 }}>
       <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
@@ -45,7 +46,7 @@ function ProductTable({ products, loading }) {
               <TableCell>{p.price}</TableCell>
               <TableCell>{p.stock}</TableCell>
               <TableCell>{p.status}</TableCell>
-              <TableCell>{p.createdAt}</TableCell>
+              <TableCell>{formatDate(p.createdAt)}</TableCell>
               <TableCell align="right">
                 <button>Delete</button>
               </TableCell>

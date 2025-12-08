@@ -1,7 +1,6 @@
-//import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-import Header from "../components/common/Header";
-import ListProduct from "../modules/product/ListProduct";
+import Header from './../components/Header';
 
 function Mainlayout() {
   return (
@@ -11,8 +10,12 @@ function Mainlayout() {
       </header>
 
       <main className="app-main">
-        <ListProduct />
+        <Outlet />   
+
       </main>
+      <footer>
+        
+      </footer>
     </div>
   );
 }
