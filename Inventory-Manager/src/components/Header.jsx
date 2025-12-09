@@ -9,7 +9,7 @@ import {
   Stack,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Header({ search, onSearchChange }) {
   return (
@@ -23,7 +23,7 @@ function Header({ search, onSearchChange }) {
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={1}>
           <Button
-            component={NavLink}
+            component={Link}
             to="/listitem"
             color="inherit"
             sx={{
@@ -38,21 +38,6 @@ function Header({ search, onSearchChange }) {
             Product
           </Button>
 
-          <Button
-            component={NavLink}
-            to="/create"
-            color="inherit"
-            sx={{
-              textTransform: "none",
-              "&.active": {
-                fontWeight: "bold",
-                borderBottom: "2px solid #fff",
-                borderRadius: 0,
-              },
-            }}
-          >
-            Create
-          </Button>
         </Stack>
 
         <Paper

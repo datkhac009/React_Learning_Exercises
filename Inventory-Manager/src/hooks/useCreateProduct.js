@@ -20,7 +20,7 @@ export const useCreateProduct = (url) => {
       if (!res.ok) {
         throw new Error(`Cannot create product: ${res.status}`);
       }
-      const created = res.json();
+      const {created} = res.json();
       return created;
     } catch (error) {
       setError(error);

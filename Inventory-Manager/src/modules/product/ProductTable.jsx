@@ -11,7 +11,7 @@ import { formatDate } from "../../utils/date";
 
 function ProductTable({ products, loading }) {
     console.log(loading)
-  if (loading) return <Spinner />
+  if (loading) return <Spinner rows={products.length}/>
 
   return (
     <TableContainer sx={{ maxHeight: 400 }}>
