@@ -1,9 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const useProduct = (url) => {
   const [product, setProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+
+  const refetchdata = useCallback(() => {
+    setRefetchTrigger((prev) => prev + 1);
+  }, []);
+
   useEffect(() => {
     const abort = new AbortController();
 
@@ -39,7 +45,7 @@ export const useProduct = (url) => {
     return () => {
       abort.abort();
     };
-  }, [url]);
+  }, [url, refetchTrigger]);
 
-  return { product, isLoading, error };
+  return { product, refetchdata, isLoading, error };
 };

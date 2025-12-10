@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 export const useCreateProduct = (url) => {
+  console.log(url)
   const [isCreating, setIsCreateting] = useState(false);
   const [error, setError] = useState(null);
 
   async function CreateProduct(newData) {
+    console.log("value",newData)
     try {
       setError(null);
       setIsCreateting(true);

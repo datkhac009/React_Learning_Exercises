@@ -3,18 +3,12 @@ import { useProduct } from "../../hooks/useProduct";
 import ProductTable from "./ProductTable";
 import { useState } from "react";
 import CreateItemProduct from "./CreateItemProduct";
-import { useCreateProduct } from "../../hooks/useCreateProduct";
 function ListProduct() {
-  const API_BASE_URL = "http://localhost:2002/";
-  const { product, isLoading } = useProduct(API_BASE_URL);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const { product, isLoading, refetchdata } = useProduct(API_BASE_URL);
   const [openCreate, setOpenCreate] = useState(false);
-  const {CreateProduct} = useCreateProduct()
   const handleOpen = () => setOpenCreate(true);
   const handleClose = () => setOpenCreate(false);
-  const handleCreateSuccess = (newProduct) => {
-    //Snackbar succses
-    console.log("FROM DIALOG:", CreateProduct(newProduct));
-  };
 
   console.log(product);
   return (
@@ -53,12 +47,16 @@ function ListProduct() {
       </Box>
 
       <Paper elevation={1}>
-        <ProductTable products={product} loading={isLoading} />
+        <ProductTable
+          products={product}
+          loading={isLoading}
+          onRefetch={refetchdata}
+        />
       </Paper>
       <CreateItemProduct
         open={openCreate}
         onClose={handleClose}
-        onSuccess={handleCreateSuccess}
+        onRefetch={refetchdata}
       />
     </Container>
   );

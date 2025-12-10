@@ -7,16 +7,22 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useCreateProduct } from "../../hooks/useCreateProduct";
+import { toast } from "react-toastify";
 
-function CreateItemProduct({ open, onClose, onSuccess }) {
+function CreateItemProduct({ open, onClose, onRefetch }) {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const today = new Date().toISOString().slice(0, 10);
+  const { CreateProduct } = useCreateProduct(API_BASE_URL);
   const { register, handleSubmit, formState, reset, control } = useForm({
     defaultValues: {
       name: "",
       category: "",
-      price: "",
-      stock: "",
+      price: 0,
+      stock: 0,
       status: "active",
+      createdAt: today,
     },
   });
   const CATEGORIES = [
@@ -29,13 +35,34 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
   ];
   const STATUSES = ["active", "inactive"];
   const { errors } = formState;
+
+  const onSubmit = async (data) => {
+    try {
+      if (!data) {
+        toast.error("Create product failed");
+        return;
+      }
+
+      await CreateProduct(data);
+      toast.success("Create product successfully");
+      
+      // load lại danh sách
+      if (onRefetch) {
+        onRefetch();
+      }
+      reset();
+      onClose?.();
+    } catch (error) {
+      console.error("Error creating product:", error);
+      toast.error("Failed to create product");
+    }
+  };
+
   const handleClose = () => {
     reset();
     onClose?.();
   };
-  const onSubmit = () => {
-    console.log("succes");
-  };
+
   const onError = (error) => {
     error;
   };
@@ -46,9 +73,10 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
         open={open}
         fullWidth
         maxWidth="sm"
+        disableRestoreFocus
         onClose={(event, reason) => {
-          // Không cho đóng khi click ra ngoài 
-          if (reason === "backdropClick") return;
+          // Không cho đóng khi click ra ngoài
+          if (reason === "backdropClick" || reason === "escapeKeyDown") return;
           handleClose();
         }}
       >
@@ -56,7 +84,7 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
         <DialogTitle>Add Product Form</DialogTitle>
 
         {/* Form */}
-        <Form onSubmit={handleSubmit(onSubmit, onError)} control={control}>
+        <form onSubmit={handleSubmit(onSubmit, onError)} control={control}>
           <DialogContent dividers>
             {/* Name */}
             <TextField
@@ -65,6 +93,7 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
               margin="normal"
               error={!!errors.name}
               helperText={errors.name?.message}
+              defaultValue=""
               {...register("name", {
                 required: "Name is required",
                 minLength: { value: 3, message: "Min 3 characters" },
@@ -78,9 +107,9 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
               label="Category"
               fullWidth
               margin="normal"
-              defaultValue=""
               error={!!errors.category}
               helperText={errors.category?.message}
+              defaultValue=""
               {...register("category", {
                 required: "Category is required",
               })}
@@ -100,9 +129,9 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
               margin="normal"
               error={!!errors.price}
               helperText={errors.price?.message}
+              defaultValue=""
               {...register("price", {
                 required: "Price is required",
-                valueAsNumber: true,
                 min: { value: 1, message: "Price must be > 0" },
               })}
             />
@@ -115,6 +144,7 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
               margin="normal"
               error={!!errors.stock}
               helperText={errors.stock?.message}
+              defaultValue=""
               {...register("stock", {
                 required: "Stock is required",
                 valueAsNumber: true,
@@ -137,15 +167,27 @@ function CreateItemProduct({ open, onClose, onSuccess }) {
                 </MenuItem>
               ))}
             </TextField>
+            <TextField
+              type="date"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: today }}
+              error={!!errors.createdAt}
+              helperText={errors.createdAt?.message}
+              {...register("createdAt", {
+                required: "Created date is required",
+              })}
+            />
           </DialogContent>
           {/* Action buttons */}
           <DialogActions>
-            <Button onClick={handleClose} >Cancel</Button>
+            <Button onClick={handleClose}>Cancel</Button>
             <Button type="submit" variant="contained">
               Create
             </Button>
           </DialogActions>
-        </Form>
+        </form>
       </Dialog>
     </div>
   );
