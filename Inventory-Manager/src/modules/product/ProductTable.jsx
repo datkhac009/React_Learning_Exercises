@@ -17,36 +17,40 @@ import Spinner from "../../components/Spinner";
 import { formatDate } from "../../utils/date";
 import { useDelete } from "../../hooks/useDelete";
 import { toast } from "react-toastify";
+import EditItemProduct from "./EditItemProduct";
 
 function ProductTable({ products, loading, onRefetch }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { DeleteProduct, isDeleteting } = useDelete(API_BASE_URL);
 
-  // ✅ State cho dialog
+  //  State cho dialog Delete
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  //  State cho dialog edit
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   if (loading) return <Spinner rows={products.length} />;
 
-  // ✅ Hàm mở dialog
+  //  Hàm mở dialog
   const handleOpenDialog = (product) => {
     setSelectedProduct(product);
     setOpenDialog(true);
   };
 
-  // ✅ Hàm đóng dialog
+  //  Hàm đóng dialog
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedProduct(null);
   };
 
-  // ✅ Hàm xác nhận xóa
+  // Hàm xác nhận xóa
   const handleConfirmDelete = async () => {
     if (!selectedProduct) return;
 
     try {
       await DeleteProduct(selectedProduct.id);
-      toast.success("Đã xóa thành công");
+      toast.success("Deleted successfully");
 
       if (onRefetch) {
         onRefetch();
@@ -55,10 +59,18 @@ function ProductTable({ products, loading, onRefetch }) {
       handleCloseDialog();
     } catch (error) {
       console.error("Error deleting product:", error);
-      toast.error("Xóa sản phẩm thất bại");
+      toast.error("Delete failed product");
     }
   };
-
+  //truyền dữ liệu product xuống editProduct và mở dialog form edit 
+  const handleEditDialog = (p) => {
+    setEditingProduct(p);
+    setOpenEditDialog(true);
+  };
+  const handleCloseEditDialog = () => {
+    setOpenEditDialog(false);
+    setEditingProduct(null);
+  };
   return (
     <>
       <TableContainer sx={{ maxHeight: 400 }}>
@@ -95,6 +107,25 @@ function ProductTable({ products, loading, onRefetch }) {
                 <TableCell>{p.status}</TableCell>
                 <TableCell>{formatDate(p.createdAt)}</TableCell>
                 <TableCell align="right">
+                  {/* Button Edit  */}
+                  <Button
+                    color="primary"
+                    onClick={() => handleEditDialog(p)}
+                    sx={{
+                      backgroundColor: "#1976d2",
+                      padding: "3px 9px",
+                      color: "white",
+                      textTransform: "none",
+                      transition: "all 0.3s ease-in-out",
+                      marginRight: "2px",
+                      "&:hover": {
+                        backgroundColor: "#1565c0",
+                      },
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  {/* Button Delete  */}
                   <Button
                     variant="outlined"
                     color="error"
@@ -111,7 +142,7 @@ function ProductTable({ products, loading, onRefetch }) {
         </Table>
       </TableContainer>
 
-      {/* Dialog confirm */}
+      {/* Dialog confirm  Delete */}
       <Dialog
         open={openDialog}
         disableRestoreFocus
@@ -142,6 +173,12 @@ function ProductTable({ products, loading, onRefetch }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <EditItemProduct
+        open={openEditDialog}
+        onClose={handleCloseEditDialog}
+        onRefetch={onRefetch}
+        product={editingProduct}
+      />
     </>
   );
 }

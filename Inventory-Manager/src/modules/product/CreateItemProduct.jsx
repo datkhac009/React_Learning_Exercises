@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useCreateProduct } from "../../hooks/useCreateProduct";
 import { toast } from "react-toastify";
 
-function CreateItemProduct({ open, onClose, onRefetch }) {
+function CreateItemProduct({ open, onClose, onRefetch  }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const today = new Date().toISOString().slice(0, 10);
   const { CreateProduct } = useCreateProduct(API_BASE_URL);
