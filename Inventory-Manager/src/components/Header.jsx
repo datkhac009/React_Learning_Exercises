@@ -2,16 +2,13 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  InputBase,
   Box,
-  Paper,
   Button,
   Stack,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 
-function Header({ search, onSearchChange }) {
+function Header() {
   return (
     <AppBar position="static" color="primary" elevation={1} borderRadius="16px" sx={{borderBottomRightRadius
     :"10px",borderBottomLeftRadius:"10px"}}>
@@ -39,25 +36,7 @@ function Header({ search, onSearchChange }) {
           </Button>
 
         </Stack>
-
-        <Paper
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            px: 1,
-            py: 0.5,
-            borderRadius: 2,
-            minWidth: 260,
-          }}
-        >
-          <SearchIcon fontSize="small" />
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
-          />
-        </Paper>
+        
       </Toolbar>
     </AppBar>
   );

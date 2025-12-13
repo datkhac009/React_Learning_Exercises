@@ -134,6 +134,15 @@
       "stock": 40,
       "status": "active",
       "createdAt": "2025-11-20T08:15:00.000Z"
+    },
+    {
+      "id": "25cd",
+      "name": "Asus ",
+      "category": "Laptop",
+      "price": "2000",
+      "stock": 9,
+      "status": "active",
+      "createdAt": "2025-12-15"
     }
   ]
 }
