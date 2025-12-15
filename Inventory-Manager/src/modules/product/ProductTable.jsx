@@ -19,7 +19,13 @@ import { useDelete } from "../../hooks/useDelete";
 import { toast } from "react-toastify";
 import EditItemProduct from "./EditItemProduct";
 
-function ProductTable({ products, loading, onRefetch }) {
+function ProductTable({
+  products,
+  loading,
+  onRefetch,
+  currentPage = 1,
+  itemsPerPage = 8,
+}) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { DeleteProduct, isDeleteting } = useDelete(API_BASE_URL);
 
@@ -62,7 +68,7 @@ function ProductTable({ products, loading, onRefetch }) {
       toast.error("Delete failed product");
     }
   };
-  //truyền dữ liệu product xuống editProduct và mở dialog form edit 
+  //truyền dữ liệu product xuống editProduct và mở dialog form edit
   const handleEditDialog = (p) => {
     setEditingProduct(p);
     setOpenEditDialog(true);
@@ -89,55 +95,58 @@ function ProductTable({ products, loading, onRefetch }) {
           </TableHead>
 
           <TableBody>
-            {products.map((p, index) => (
-              <TableRow
-                key={p.id}
-                hover
-                sx={{
-                  "&:nth-of-type(odd)": {
-                    backgroundColor: (theme) => theme.palette.action.hover,
-                  },
-                }}
-              >
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{p.name}</TableCell>
-                <TableCell>{p.category}</TableCell>
-                <TableCell>{p.price}</TableCell>
-                <TableCell>{p.stock}</TableCell>
-                <TableCell>{p.status}</TableCell>
-                <TableCell>{formatDate(p.createdAt)}</TableCell>
-                <TableCell align="right">
-                  {/* Button Edit  */}
-                  <Button
-                    color="primary"
-                    onClick={() => handleEditDialog(p)}
-                    sx={{
-                      backgroundColor: "#1976d2",
-                      padding: "3px 9px",
-                      color: "white",
-                      textTransform: "none",
-                      transition: "all 0.3s ease-in-out",
-                      marginRight: "2px",
-                      "&:hover": {
-                        backgroundColor: "#1565c0",
-                      },
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  {/* Button Delete  */}
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                    disabled={isDeleteting}
-                    onClick={() => handleOpenDialog(p)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {products.map((p, index) => {
+              const actualIndex = (currentPage - 1) * itemsPerPage + index + 1;
+              return (
+                <TableRow
+                  key={p.id}
+                  hover
+                  sx={{
+                    "&:nth-of-type(odd)": {
+                      backgroundColor: (theme) => theme.palette.action.hover,
+                    },
+                  }}
+                >
+                  <TableCell>{actualIndex}</TableCell>
+                  <TableCell>{p.name}</TableCell>
+                  <TableCell>{p.category}</TableCell>
+                  <TableCell>{p.price}</TableCell>
+                  <TableCell>{p.stock}</TableCell>
+                  <TableCell>{p.status}</TableCell>
+                  <TableCell>{formatDate(p.createdAt)}</TableCell>
+                  <TableCell align="right">
+                    {/* Button Edit  */}
+                    <Button
+                      color="primary"
+                      onClick={() => handleEditDialog(p)}
+                      sx={{
+                        backgroundColor: "#1976d2",
+                        padding: "3px 9px",
+                        color: "white",
+                        textTransform: "none",
+                        transition: "all 0.3s ease-in-out",
+                        marginRight: "2px",
+                        "&:hover": {
+                          backgroundColor: "#1565c0",
+                        },
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    {/* Button Delete  */}
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      disabled={isDeleteting}
+                      onClick={() => handleOpenDialog(p)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

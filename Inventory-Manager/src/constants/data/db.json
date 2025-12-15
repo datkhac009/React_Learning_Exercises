@@ -20,12 +20,12 @@
     },
     {
       "id": "3",
-      "name": "MacBook Air M2",
+      "name": "MacBook Air M3",
       "category": "Laptop",
       "price": 32000000,
       "stock": 5,
       "status": "active",
-      "createdAt": "2025-09-15T14:15:00.000Z"
+      "createdAt": "2025-09-15"
     },
     {
       "id": "4",
