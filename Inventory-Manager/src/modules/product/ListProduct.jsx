@@ -37,10 +37,6 @@ function ListProduct() {
   const [searchInput, setSearchInput] = useState(searchUrl);
   const [page, setPage] = useState(pageUrl);
   const [sort,setSort] = useState(sortUrl)
-  // const[category,setCategory] = useState(categoryUrl);
-  // const[status,setStatus] = useState(statusUrl);
-  // const[priceRange, setPriceRange] = useState([priceMinUrl || 0, priceMaxUrl || 1000000]);
-  // const[createAt,setCreateAt]= useState(createdAtUrl)
 
 
   // đồng bộ url params với local
