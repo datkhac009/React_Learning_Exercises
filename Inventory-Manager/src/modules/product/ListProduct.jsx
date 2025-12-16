@@ -14,6 +14,7 @@ import ProductTable from "./ProductTable";
 import { useState, useMemo, useEffect, useRef } from "react";
 import CreateItemProduct from "./CreateItemProduct";
 import { useSearchParams } from "react-router-dom";
+import FilterBar from "./FilterBar";
 //import ProductFilter from "./ProductFilter";
 
 function ListProduct() {
@@ -31,27 +32,31 @@ function ListProduct() {
   const searchUrl = searchParams.get("q") || "";
   // pagination
   const pageUrl = Number(searchParams.get("page")) || 1;
-
-  // filter category, status
-
-  const categoryUrl = searchParams.get("category") || "";
-  const statusUrl = searchParams.get("status") || "";
-
-  //price range
-  const priceMinUrl = Number(searchParams.get("priceMin")) || 0;
-  const priceMaxUrl = Number(searchParams.get("priceMax"))|| 0;
-
-  // date 
-  const createAtUrl = searchParams.get("createAt") || "";
+  const sortUrl = searchParams.get("sort") || "";
 
   const [searchInput, setSearchInput] = useState(searchUrl);
   const [page, setPage] = useState(pageUrl);
+  const [sort,setSort] = useState(sortUrl)
+  // const[category,setCategory] = useState(categoryUrl);
+  // const[status,setStatus] = useState(statusUrl);
+  // const[priceRange, setPriceRange] = useState([priceMinUrl || 0, priceMaxUrl || 1000000]);
+  // const[createAt,setCreateAt]= useState(createdAtUrl)
+
 
   // đồng bộ url params với local
   useEffect(() => {
     setSearchInput(searchUrl);
   }, [searchUrl]);
+  
+  const prevSearchRef = useRef(searchUrl);
+  //console.log("totalPage:", totalPage);
 
+  // Update dữ liệu cũ khi searchUrl thay đổi từ URL
+  useEffect(() => {
+    setSearchInput(searchUrl);
+    prevSearchRef.current = searchUrl;
+  }, [searchUrl]);
+  
   // Debounce 400ms: update URL q
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -99,14 +104,6 @@ function ListProduct() {
   }, [product, searchUrl]);
 
   const totalPage = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-  const prevSearchRef = useRef(searchUrl);
-  //console.log("totalPage:", totalPage);
-
-  // Update dữ liệu cũ khi searchUrl thay đổi từ URL
-  useEffect(() => {
-    setSearchInput(searchUrl);
-    prevSearchRef.current = searchUrl;
-  }, [searchUrl]);
 
   //Tính pagination chỉ hiển thị 8 item ở mỗi trang
   const paginationProduct = useMemo(() => {
@@ -169,13 +166,11 @@ function ListProduct() {
           Add Product
         </Button>
       </Box>
-      {/* <Box>
-        <ProductFilter 
-          products={product}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
+      <Box>
+        <FilterBar 
+          product={product}
         />
-      </Box> */}
+      </Box>
       {/* Search Box */}
       <Box sx={{ mb: 2 }}>
         <TextField
