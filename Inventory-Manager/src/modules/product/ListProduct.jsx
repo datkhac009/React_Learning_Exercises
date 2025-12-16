@@ -15,6 +15,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import CreateItemProduct from "./CreateItemProduct";
 import { useSearchParams } from "react-router-dom";
 import FilterBar from "./FilterBar";
+import { sortProducts } from "../../utils/sortProduct";
 //import ProductFilter from "./ProductFilter";
 
 function ListProduct() {
@@ -32,13 +33,12 @@ function ListProduct() {
   const searchUrl = searchParams.get("q") || "";
   // pagination
   const pageUrl = Number(searchParams.get("page")) || 1;
-  const sortUrl = searchParams.get("sort") || "";
-
+  
   const [searchInput, setSearchInput] = useState(searchUrl);
   const [page, setPage] = useState(pageUrl);
-  const [sort,setSort] = useState(sortUrl)
-
-
+  //sort
+  const sort = searchParams.get("sort") || "";
+  const [sortField, sortDir] = sort.split(":");
   // đồng bộ url params với local
   useEffect(() => {
     setSearchInput(searchUrl);
@@ -46,13 +46,13 @@ function ListProduct() {
   
   const prevSearchRef = useRef(searchUrl);
   //console.log("totalPage:", totalPage);
-
+  
   // Update dữ liệu cũ khi searchUrl thay đổi từ URL
   useEffect(() => {
     setSearchInput(searchUrl);
     prevSearchRef.current = searchUrl;
   }, [searchUrl]);
-  
+
   // Debounce 400ms: update URL q
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,7 +82,7 @@ function ListProduct() {
             },
             { replace: true }
           );
-
+          
           // ❌ KHÔNG setPage(1) ở đây
         }
       }
@@ -101,17 +101,21 @@ function ListProduct() {
 
   const totalPage = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
 
+//sortedProducts
+  const sortedProducts = useMemo(() => {
+  return sortProducts(filteredProducts, sortField, sortDir);
+}, [filteredProducts, sortField, sortDir]);
   //Tính pagination chỉ hiển thị 8 item ở mỗi trang
   const paginationProduct = useMemo(() => {
     const start = (page - 1) * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
-    return filteredProducts.slice(start, end); // cắt mảng
-  }, [filteredProducts, page]);
-
+    return sortedProducts.slice(start, end); // cắt mảng
+  }, [sortedProducts, page]);
+  
   // Change Page
   const handleChangePage = (e, value) => {
     setPage(value);
-
+    
     // ✅ Giữ nguyên q, chỉ update page
     setSearchParams(
       (prev) => {
@@ -121,10 +125,34 @@ function ListProduct() {
       },
       { replace: true }
     );
-
+    
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  //Sort Table
+  
+  const toggleSort = (field) => {
+    setSearchParams(
+      (prev) => {
+        const params = new URLSearchParams(prev);
 
+        const current = params.get("sort") || "";
+        const [currentField, currentDir] = current.split(":");
+
+        let nextSort = "";
+        if (currentField !== field) nextSort = `${field}:asc`;
+        else if (currentDir === "asc") nextSort = `${field}:desc`;
+        else if (currentDir === "desc") nextSort = "";
+        else nextSort = `${field}:asc`;
+
+        if (nextSort) params.set("sort", nextSort);
+        else params.delete("sort");
+
+        params.set("page", "1");
+        return params;
+      },
+      { replace: true }
+    );
+  };
   useEffect(() => {
     const safeTotal = Math.max(1, totalPage);
     if (Number(page) > safeTotal) setPage(1);
@@ -163,9 +191,7 @@ function ListProduct() {
         </Button>
       </Box>
       <Box>
-        <FilterBar 
-          product={product}
-        />
+        <FilterBar product={product} />
       </Box>
       {/* Search Box */}
       <Box sx={{ mb: 2 }}>
@@ -198,11 +224,14 @@ function ListProduct() {
 
       <Paper elevation={1}>
         <ProductTable
+          toggleSort={toggleSort}
           products={paginationProduct}
           loading={isLoading}
           onRefetch={refetchdata}
           currentPage={page}
           itemsPerPage={ITEMS_PER_PAGE}
+          sortField={sortField || ""}
+          sortDir={sortDir === "asc" || sortDir === "desc" ? sortDir : "asc"}
         />
       </Paper>
       {/* ✅ Pagination */}

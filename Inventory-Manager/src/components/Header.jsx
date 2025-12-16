@@ -19,21 +19,7 @@ function Header() {
 
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={1}>
-          <Button
-            component={Link}
-            to="/listitem"
-            color="inherit"
-            sx={{
-              textTransform: "none",
-              "&.active": {
-                fontWeight: "bold",
-                borderBottom: "2px solid #fff",
-                borderRadius: 0,
-              },
-            }}
-          >
-            Product
-          </Button>
+          
 
         </Stack>
         

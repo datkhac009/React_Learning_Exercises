@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TableSortLabel,
 } from "@mui/material";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
@@ -20,14 +21,20 @@ import { toast } from "react-toastify";
 import EditItemProduct from "./EditItemProduct";
 
 function ProductTable({
+  toggleSort,
   products,
   loading,
   onRefetch,
   currentPage = 1,
   itemsPerPage = 8,
+  sortField = "",
+  sortDir = "asc",
 }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { DeleteProduct, isDeleteting } = useDelete(API_BASE_URL);
+
+  //đảm bảo không bao giờ undefined
+  const safeDir = sortDir === "asc" || sortDir === "desc" ? sortDir : "asc";
 
   //  State cho dialog Delete
   const [openDialog, setOpenDialog] = useState(false);
@@ -84,12 +91,50 @@ function ProductTable({
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell sortDirection={sortField === "name" ? safeDir : false}>
+                <TableSortLabel
+                  active={sortField === "name"}
+                  direction={sortField === "name" ? safeDir : "asc"}
+                  onClick={() => toggleSort("name")}
+                >
+                  Name
+                </TableSortLabel>
+              </TableCell>
               <TableCell>Category</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>In Stock</TableCell>
+              <TableCell
+                sortDirection={sortField === "price" ? safeDir : false}
+              >
+                <TableSortLabel
+                  active={sortField === "price"}
+                  direction={sortField === "price" ? safeDir : "asc"}
+                  onClick={() => toggleSort("price")}
+                >
+                  Price
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                sortDirection={sortField === "stock" ? safeDir : false}
+              >
+                <TableSortLabel
+                  active={sortField === "stock"}
+                  direction={sortField === "stock" ? safeDir : "asc"}
+                  onClick={() => toggleSort("stock")}
+                >
+                  In Stock
+                </TableSortLabel>
+              </TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Created At</TableCell>
+              <TableCell
+                sortDirection={sortField === "createdAt" ? safeDir : false}
+              >
+                <TableSortLabel
+                  active={sortField === "createdAt"}
+                  direction={sortField === "createdAt" ? safeDir : "asc"}
+                  onClick={() => toggleSort("createdAt")}
+                >
+                  Created At
+                </TableSortLabel>
+              </TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
