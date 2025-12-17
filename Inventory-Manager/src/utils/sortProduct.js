@@ -1,42 +1,38 @@
-function parseDDMMYYYY(dateStr) {
-  // dateStr: "20/12/2025"
-  if (!dateStr) return 0;
-  const [dd, mm, yyyy] = String(dateStr).split("/");
-  if (!dd || !mm || !yyyy) return 0;
-  return new Date(+yyyy, +mm - 1, +dd).getTime();
+//đổi createdAt thành number để đối số so sánh
+function parseDate(dateValue) {
+  if (!dateValue) return 0;
+  return new Date(dateValue).getTime() || 0;
 }
 
-export function sortProducts(list, sortField, sortDir) {
-  // list: mảng đã filter xong
-  if (!sortField || !sortDir) return list;
+export function sortProducts(product, sortField, sortDir) {
+  // If no sort criteria, return original product
+  if (!sortField || !sortDir) return product;
 
   const dir = sortDir === "desc" ? -1 : 1;
-  const arr = [...list]; // copy để không mutate
+  const arrProduct = [...product]; // Copy to avoid mutation
 
-  arr.sort((a, b) => {
-    // 1) STRING fields
-    if (sortField === "name" || sortField === "category" || sortField === "status") {
-      const A = String(a[sortField] ?? "").toLowerCase();
-      const B = String(b[sortField] ?? "").toLowerCase();
+  arrProduct.sort((a, b) => {
+    let A, B;
+
+    // DATE
+    if (sortField === "createdAt") {
+      A = parseDate(a.createdAt);
+      B = parseDate(b.createdAt);
+    }
+    // Price and stock
+    else if (sortField === "price" || sortField === "stock") {
+      A = Number(a[sortField] ?? 0);
+      B = Number(b[sortField] ?? 0);
+    }
+    // Name
+    else {
+      A = String(a[sortField] ?? "").toLowerCase();
+      B = String(b[sortField] ?? "").toLowerCase();
       return A.localeCompare(B) * dir;
     }
 
-    // 2) NUMBER fields
-    if (sortField === "price" || sortField === "stock") {
-      const A = Number(a[sortField] ?? 0);
-      const B = Number(b[sortField] ?? 0);
-      return (A - B) * dir;
-    }
-
-    // 3) DATE field (dd/mm/yyyy)
-    if (sortField === "createdAt") {
-      const A = parseDDMMYYYY(a.createdAt);
-      const B = parseDDMMYYYY(b.createdAt);
-      return (A - B) * dir;
-    }
-
-    return 0;
+    return (A - B) * dir;
   });
 
-  return arr;
+  return arrProduct;
 }

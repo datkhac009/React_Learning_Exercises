@@ -8,8 +8,8 @@ function Mainlayout() {
     <div className="app-layout">
       <ToastContainer
         position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
+        autoClose={800}
+        hideProgressBar={true}
         newestOnTop
         closeOnClick
         pauseOnFocusLoss  

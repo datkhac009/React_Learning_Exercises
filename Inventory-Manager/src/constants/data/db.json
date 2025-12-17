@@ -103,7 +103,7 @@
       "id": "12",
       "name": "AirPods Pro 2",
       "category": "Headphone",
-      "price": 6500000,
+      "price": "5500000",
       "stock": 0,
       "status": "inactive",
       "createdAt": "2025-03-22"

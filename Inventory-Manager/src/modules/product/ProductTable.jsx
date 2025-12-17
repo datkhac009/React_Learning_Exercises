@@ -27,31 +27,32 @@ function ProductTable({
   onRefetch,
   currentPage = 1,
   itemsPerPage = 8,
-  sortField = "",
+  sortField,
   sortDir = "asc",
 }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { DeleteProduct, isDeleteting } = useDelete(API_BASE_URL);
 
-  //đảm bảo không bao giờ undefined
+  // Đảm bảo không bao giờ undefined
   const safeDir = sortDir === "asc" || sortDir === "desc" ? sortDir : "asc";
 
-  //  State cho dialog Delete
+  // State cho dialog Delete
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  //  State cho dialog edit
+  
+  // State cho dialog edit
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
   if (loading) return <Spinner rows={products.length} />;
 
-  //  Hàm mở dialog
+  // Hàm mở dialog
   const handleOpenDialog = (product) => {
     setSelectedProduct(product);
     setOpenDialog(true);
   };
 
-  //  Hàm đóng dialog
+  // Hàm đóng dialog
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedProduct(null);
@@ -75,15 +76,18 @@ function ProductTable({
       toast.error("Delete failed product");
     }
   };
-  //truyền dữ liệu product xuống editProduct và mở dialog form edit
+
+  // Truyền dữ liệu product xuống editProduct và mở dialog form edit
   const handleEditDialog = (p) => {
     setEditingProduct(p);
     setOpenEditDialog(true);
   };
+
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
     setEditingProduct(null);
   };
+
   return (
     <>
       <TableContainer sx={{ maxHeight: 400 }}>
@@ -91,6 +95,8 @@ function ProductTable({
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
+
+              {/* NAME COLUMN */}
               <TableCell sortDirection={sortField === "name" ? safeDir : false}>
                 <TableSortLabel
                   active={sortField === "name"}
@@ -100,10 +106,12 @@ function ProductTable({
                   Name
                 </TableSortLabel>
               </TableCell>
+
+              {/* CATEGORY  */}
               <TableCell>Category</TableCell>
-              <TableCell
-                sortDirection={sortField === "price" ? safeDir : false}
-              >
+
+              {/*  PRICE COLUMN */}
+              <TableCell sortDirection={sortField === "price" ? safeDir : false}>
                 <TableSortLabel
                   active={sortField === "price"}
                   direction={sortField === "price" ? safeDir : "asc"}
@@ -112,9 +120,9 @@ function ProductTable({
                   Price
                 </TableSortLabel>
               </TableCell>
-              <TableCell
-                sortDirection={sortField === "stock" ? safeDir : false}
-              >
+
+              {/*  STOCK COLUMN */}
+              <TableCell sortDirection={sortField === "stock" ? safeDir : false}>
                 <TableSortLabel
                   active={sortField === "stock"}
                   direction={sortField === "stock" ? safeDir : "asc"}
@@ -123,10 +131,12 @@ function ProductTable({
                   In Stock
                 </TableSortLabel>
               </TableCell>
+
+              {/* STATUS -  */}
               <TableCell>Status</TableCell>
-              <TableCell
-                sortDirection={sortField === "createdAt" ? safeDir : false}
-              >
+
+              {/*  CREATED  */}
+              <TableCell sortDirection={sortField === "createdAt" ? safeDir : false}>
                 <TableSortLabel
                   active={sortField === "createdAt"}
                   direction={sortField === "createdAt" ? safeDir : "asc"}
@@ -135,6 +145,7 @@ function ProductTable({
                   Created At
                 </TableSortLabel>
               </TableCell>
+
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -160,7 +171,7 @@ function ProductTable({
                   <TableCell>{p.status}</TableCell>
                   <TableCell>{formatDate(p.createdAt)}</TableCell>
                   <TableCell align="right">
-                    {/* Button Edit  */}
+                    {/* Button Edit */}
                     <Button
                       color="primary"
                       onClick={() => handleEditDialog(p)}
@@ -178,7 +189,7 @@ function ProductTable({
                     >
                       Edit
                     </Button>
-                    {/* Button Delete  */}
+                    {/* Button Delete */}
                     <Button
                       variant="outlined"
                       color="error"
@@ -196,7 +207,7 @@ function ProductTable({
         </Table>
       </TableContainer>
 
-      {/* Dialog confirm  Delete */}
+      {/* Dialog confirm Delete */}
       <Dialog
         open={openDialog}
         disableRestoreFocus
@@ -227,6 +238,7 @@ function ProductTable({
           </Button>
         </DialogActions>
       </Dialog>
+
       <EditItemProduct
         open={openEditDialog}
         onClose={handleCloseEditDialog}

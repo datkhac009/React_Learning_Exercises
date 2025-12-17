@@ -11,12 +11,11 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useProduct } from "../../hooks/useProduct";
 import ProductTable from "./ProductTable";
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import CreateItemProduct from "./CreateItemProduct";
 import { useSearchParams } from "react-router-dom";
 import FilterBar from "./FilterBar";
 import { sortProducts } from "../../utils/sortProduct";
-//import ProductFilter from "./ProductFilter";
 
 function ListProduct() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -24,142 +23,128 @@ function ListProduct() {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [openCreate, setOpenCreate] = useState(false);
-
-  const handleOpen = () => setOpenCreate(true);
-  const handleClose = () => setOpenCreate(false);
   const ITEMS_PER_PAGE = 8;
-  // search theo name
-  const searchUrl = searchParams.get("q") || "";
-  // pagination
-  const pageUrl = Number(searchParams.get("page")) || 1;
-  
-  const [searchInput, setSearchInput] = useState(searchUrl);
-  const [page, setPage] = useState(pageUrl);
-  //sort
-  const sort = searchParams.get("sort") || "";
-  const [sortField, sortDir] = sort.split(":");
-  // đồng bộ url params với local
-  useEffect(() => {
-    setSearchInput(searchUrl);
-  }, [searchUrl]);
-  
-  const prevSearchRef = useRef(searchUrl);
-  //console.log("totalPage:", totalPage);
-  
-  // Update dữ liệu cũ khi searchUrl thay đổi từ URL
-  useEffect(() => {
-    setSearchInput(searchUrl);
-    prevSearchRef.current = searchUrl;
-  }, [searchUrl]);
 
-  // Debounce 400ms: update URL q
+  //  1) Read state from URL 
+  const q = searchParams.get("q") || ""; // keyword
+
+  const page = Number(searchParams.get("page")) || 1; // current page
+  const sort = searchParams.get("sort") || ""; // "name:asc"
+  const [sortField, sortDir] = sort ? sort.split(":") : ["", ""];
+
+  //  2) Local input state (để debounce, không gõ phát là đổi URL ngay)
+  const [searchInput, setSearchInput] = useState(q);
+
+  //  3) Back/Forward/Reload: khi URL đổi -> sync lại input
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const valueSearch = searchInput.trim();
-      const valuePage = Number(pageUrl);
+    setSearchInput(q);
+  }, [q]);
+
+  //  4) Debounce: user gõ xong 400ms mới cập nhật URL
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const nextQ = searchInput.trim();
       const currentQ = searchParams.get("q") || "";
-      //  IMPORTANT: Chỉ update URL + reset page khi keyword (q) thật sự thay đổi.
-      // Nếu không check đoạn này, bạn click page=2 cũng có thể bị "đè" về page=1.
-      if (valueSearch !== currentQ) {
-        if (valueSearch) {
-          setSearchParams(
-            (prev) => {
-              const p = new URLSearchParams(prev);
-              p.set("q", valueSearch);
-              p.set("page", valuePage);
-              return p;
-            },
-            { replace: true }
-          );
-        } else {
-          // ✅ Xoá search: chỉ xoá q, GIỮ page hiện tại
-          setSearchParams(
-            (prev) => {
-              const p = new URLSearchParams(prev);
-              p.delete("q");
-              return p;
-            },
-            { replace: true }
-          );
-          
-          // ❌ KHÔNG setPage(1) ở đây
-        }
-      }
+
+      // Nếu không đổi gì thì thôi (tránh setSearchParams thừa)
+      if (nextQ === currentQ) return;
+
+      setSearchParams(
+        (prev) => {
+          const p = new URLSearchParams(prev);
+
+          if (nextQ) p.set("q", nextQ);
+          else p.delete("q"); // xóa search
+
+          p.set("page", "1"); // keyword đổi => quay về trang 1
+          return p;
+        },
+        { replace: true }
+      );
     }, 400);
 
-    return () => clearTimeout(timer);
-  }, [searchInput, searchParams, setSearchParams, pageUrl]);
+    return () => clearTimeout(t);
+  }, [searchInput, searchParams, setSearchParams]);
 
-  //  Filter product theo name
+  //  5) Filter theo name (dựa trên q trong URL)
   const filteredProducts = useMemo(() => {
-    if (!searchUrl.trim()) return product;
+    if (!q.trim()) return product;
     return product.filter((p) =>
-      p.name.toLowerCase().includes(searchUrl.toLowerCase())
+      p.name.toLowerCase().includes(q.toLowerCase())
     );
-  }, [product, searchUrl]);
+  }, [product, q]);
 
-  const totalPage = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-
-//sortedProducts
+  //  Sort (chỉ sort theo 1 field)
   const sortedProducts = useMemo(() => {
-  return sortProducts(filteredProducts, sortField, sortDir);
-}, [filteredProducts, sortField, sortDir]);
-  //Tính pagination chỉ hiển thị 8 item ở mỗi trang
+    return sortProducts(filteredProducts, sortField, sortDir);
+  }, [filteredProducts, sortField, sortDir]);
+
+  //  Pagination hiện 8 dòng 1 trang
+  const totalPage = Math.max(1 ,Math.ceil(sortedProducts.length / ITEMS_PER_PAGE));
+
   const paginationProduct = useMemo(() => {
     const start = (page - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    return sortedProducts.slice(start, end); // cắt mảng
+    return sortedProducts.slice(start, start + ITEMS_PER_PAGE);
   }, [sortedProducts, page]);
-  
-  // Change Page
-  const handleChangePage = (e, value) => {
-    setPage(value);
-    
-    // ✅ Giữ nguyên q, chỉ update page
+
+  //  Nếu data thay đổi (filter/sort) làm page hiện tại vượt totalPage => ép về page 1
+  useEffect(() => {
+    if (page > totalPage) {
+      setSearchParams(
+        (prev) => {
+          const p = new URLSearchParams(prev);
+          p.set("page", "1");
+          return p;
+        },
+        { replace: true }
+      );
+    }
+  }, [page, totalPage, setSearchParams]);
+
+  //  Change page: chỉ update page trong URL
+  const handleChangePage = (_, value) => {
     setSearchParams(
       (prev) => {
         const p = new URLSearchParams(prev);
-        p.set("page", String(value)); // ✅ chỉ update page
+        p.set("page", String(value));
         return p;
       },
       { replace: true }
     );
-    
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  //Sort Table
-  
+
+  //   Toggle sort: asc -> desc -> clear
   const toggleSort = (field) => {
     setSearchParams(
       (prev) => {
-        const params = new URLSearchParams(prev);
+        const p = new URLSearchParams(prev);
+        const current = p.get("sort") || "";
+        const [currentField, currentDif] = current.split(":");
 
-        const current = params.get("sort") || "";
-        const [currentField, currentDir] = current.split(":");
+        let next = "";
+        if (currentField !== field) next = `${field}:asc`;
+        else if (currentDif === "asc") next = `${field}:desc`;
+        else next = ""; // clear sort
 
-        let nextSort = "";
-        if (currentField !== field) nextSort = `${field}:asc`;
-        else if (currentDir === "asc") nextSort = `${field}:desc`;
-        else if (currentDir === "desc") nextSort = "";
-        else nextSort = `${field}:asc`;
+        if (next) p.set("sort", next);
+        else p.delete("sort");
 
-        if (nextSort) params.set("sort", nextSort);
-        else params.delete("sort");
-
-        params.set("page", "1");
-        return params;
+        return p;
       },
       { replace: true }
     );
   };
-  useEffect(() => {
-    const safeTotal = Math.max(1, totalPage);
-    if (Number(page) > safeTotal) setPage(1);
-  }, [totalPage, page]);
+
+  //  Dialog Create
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpen = () => setOpenCreate(true);
+  const handleClose = () => setOpenCreate(false);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -171,29 +156,29 @@ function ListProduct() {
         <Typography variant="h4" fontWeight="bold" gutterBottom>
           Inventory Manager
         </Typography>
+
         <Button
           onClick={handleOpen}
           variant="contained"
-          color="primary"
           sx={{
             backgroundColor: "#1976d2",
             color: "white",
             fontWeight: "bold",
             textTransform: "none",
             transition: "all 0.3s ease-in-out",
-            "&:hover": {
-              backgroundColor: "#1565c0",
-              transform: "translateY(-2px)",
-            },
+            "&:hover": { backgroundColor: "#1565c0", transform: "translateY(-2px)" },
           }}
         >
           Add Product
         </Button>
       </Box>
+
+      {/* FilterBar (nếu có) */}
       <Box>
         <FilterBar product={product} />
       </Box>
-      {/* Search Box */}
+
+      {/* Search */}
       <Box sx={{ mb: 2 }}>
         <TextField
           fullWidth
@@ -207,13 +192,10 @@ function ListProduct() {
               </InputAdornment>
             ),
           }}
-          sx={{
-            backgroundColor: "white",
-            borderRadius: 1,
-          }}
+          sx={{ backgroundColor: "white", borderRadius: 1 }}
         />
 
-        {searchInput && (
+        {q && (
           <Typography variant="body2" sx={{ mt: 1, color: "text.secondary" }}>
             {filteredProducts.length === 0
               ? "No products found"
@@ -222,6 +204,7 @@ function ListProduct() {
         )}
       </Box>
 
+      {/* Table */}
       <Paper elevation={1}>
         <ProductTable
           toggleSort={toggleSort}
@@ -230,29 +213,26 @@ function ListProduct() {
           onRefetch={refetchdata}
           currentPage={page}
           itemsPerPage={ITEMS_PER_PAGE}
-          sortField={sortField || ""}
-          sortDir={sortDir === "asc" || sortDir === "desc" ? sortDir : "asc"}
+          sortField={sortField}
+          sortDir={sortDir === "desc" ? "desc" : "asc"} // đảm bảo luôn hợp lệ
         />
       </Paper>
-      {/* ✅ Pagination */}
-      {totalPage >= 0 && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-          <Pagination
-            count={totalPage}
-            page={pageUrl}
-            onChange={handleChangePage}
-            color="primary"
-            size="large"
-            showFirstButton
-            showLastButton
-          />
-        </Box>
-      )}
-      <CreateItemProduct
-        open={openCreate}
-        onClose={handleClose}
-        onRefetch={refetchdata}
-      />
+
+      {/* Pagination */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+        <Pagination
+          count={totalPage}
+          page={page}
+          onChange={handleChangePage}
+          color="primary"
+          size="large"
+          showFirstButton
+          showLastButton
+        />
+      </Box>
+
+      {/* Create Dialog */}
+      <CreateItemProduct open={openCreate} onClose={handleClose} onRefetch={refetchdata} />
     </Container>
   );
 }
