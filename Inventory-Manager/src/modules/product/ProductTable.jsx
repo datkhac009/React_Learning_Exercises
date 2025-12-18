@@ -39,7 +39,7 @@ function ProductTable({
   // State cho dialog Delete
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
+
   // State cho dialog edit
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -93,7 +93,21 @@ function ProductTable({
       <TableContainer sx={{ maxHeight: 400 }}>
         <Table stickyHeader size="small">
           <TableHead>
-            <TableRow>
+            <TableRow
+              sx={{
+                "& th": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  fontWeight: 600,
+                },
+                "& .MuiTableSortLabel-root": {
+                  color: "white",
+                },
+                "& .MuiTableSortLabel-icon": {
+                  color: "white !important",
+                },
+              }}
+            >
               <TableCell>#</TableCell>
 
               {/* NAME COLUMN */}
@@ -111,7 +125,9 @@ function ProductTable({
               <TableCell>Category</TableCell>
 
               {/*  PRICE COLUMN */}
-              <TableCell sortDirection={sortField === "price" ? safeDir : false}>
+              <TableCell
+                sortDirection={sortField === "price" ? safeDir : false}
+              >
                 <TableSortLabel
                   active={sortField === "price"}
                   direction={sortField === "price" ? safeDir : "asc"}
@@ -122,7 +138,9 @@ function ProductTable({
               </TableCell>
 
               {/*  STOCK COLUMN */}
-              <TableCell sortDirection={sortField === "stock" ? safeDir : false}>
+              <TableCell
+                sortDirection={sortField === "stock" ? safeDir : false}
+              >
                 <TableSortLabel
                   active={sortField === "stock"}
                   direction={sortField === "stock" ? safeDir : "asc"}
@@ -136,7 +154,9 @@ function ProductTable({
               <TableCell>Status</TableCell>
 
               {/*  CREATED  */}
-              <TableCell sortDirection={sortField === "createdAt" ? safeDir : false}>
+              <TableCell
+                sortDirection={sortField === "createdAt" ? safeDir : false}
+              >
                 <TableSortLabel
                   active={sortField === "createdAt"}
                   direction={sortField === "createdAt" ? safeDir : "asc"}

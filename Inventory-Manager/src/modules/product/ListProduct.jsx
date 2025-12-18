@@ -11,7 +11,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useProduct } from "../../hooks/useProduct";
 import ProductTable from "./ProductTable";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import CreateItemProduct from "./CreateItemProduct";
 import { useSearchParams } from "react-router-dom";
 import FilterBar from "./FilterBar";
@@ -22,49 +22,55 @@ function ListProduct() {
   const { product, isLoading, refetchdata } = useProduct(API_BASE_URL);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
+  
   const ITEMS_PER_PAGE = 8;
-
+  
   //  1) Read state from URL 
   const q = searchParams.get("q") || ""; // keyword
-
+  
   const page = Number(searchParams.get("page")) || 1; // current page
+  const prevPageRef = useRef();//nhớ page hiện tại
+
   const sort = searchParams.get("sort") || ""; // "name:asc"
   const [sortField, sortDir] = sort ? sort.split(":") : ["", ""];
 
   //  2) Local input state (để debounce, không gõ phát là đổi URL ngay)
   const [searchInput, setSearchInput] = useState(q);
-
+  
   //  3) Back/Forward/Reload: khi URL đổi -> sync lại input
   useEffect(() => {
     setSearchInput(q);
   }, [q]);
 
   //  4) Debounce: user gõ xong 400ms mới cập nhật URL
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const nextQ = searchInput.trim();
-      const currentQ = searchParams.get("q") || "";
+ useEffect(() => {
+  const timer = setTimeout(() => {
+    const searchQ = searchInput.trim();
+    const currentQ = searchParams.get("q") || "";
+    
+    if (searchQ === currentQ) return;
 
-      // Nếu không đổi gì thì thôi (tránh setSearchParams thừa)
-      if (nextQ === currentQ) return;
+    setSearchParams((prev) => {
+      const p = new URLSearchParams(prev);
 
-      setSearchParams(
-        (prev) => {
-          const p = new URLSearchParams(prev);
+      //  bắt đầu search => nhớ page hiện tại
+      if (!currentQ && searchQ) prevPageRef.current = page;
 
-          if (nextQ) p.set("q", nextQ);
-          else p.delete("q"); // xóa search
+      // xoá search => page cũ
+      if (currentQ && !searchQ) {
+        p.delete("q");
+        p.set("page", String(prevPageRef.current));
+        return p;
+      }
+      // đổi keyword khi đang search
+      p.set("q", searchQ);
+      return p;
+    }, { replace: true });
+  }, 400);
 
-          p.set("page", "1"); // keyword đổi => quay về trang 1
-          return p;
-        },
-        { replace: true }
-      );
-    }, 400);
+  return () => clearTimeout(timer);
+}, [searchInput, searchParams, setSearchParams, page]);
 
-    return () => clearTimeout(t);
-  }, [searchInput, searchParams, setSearchParams]);
 
   //  5) Filter theo name (dựa trên q trong URL)
   const filteredProducts = useMemo(() => {
@@ -80,20 +86,21 @@ function ListProduct() {
   }, [filteredProducts, sortField, sortDir]);
 
   //  Pagination hiện 8 dòng 1 trang
-  const totalPage = Math.max(1 ,Math.ceil(sortedProducts.length / ITEMS_PER_PAGE));
-
+  
   const paginationProduct = useMemo(() => {
     const start = (page - 1) * ITEMS_PER_PAGE;
     return sortedProducts.slice(start, start + ITEMS_PER_PAGE);
   }, [sortedProducts, page]);
-
-  //  Nếu data thay đổi (filter/sort) làm page hiện tại vượt totalPage => ép về page 1
+  
+  //  Nếu data thay đổi (filter/sort) làm page hiện tại vượt totalPage 
+  const totalPage = Math.max(1 ,Math.ceil(sortedProducts.length / ITEMS_PER_PAGE));
+  
   useEffect(() => {
-    if (page > totalPage) {
+    if (page > totalPage ) {
       setSearchParams(
         (prev) => {
           const p = new URLSearchParams(prev);
-          p.set("page", "1");
+          p.set("page", String(totalPage));
           return p;
         },
         { replace: true }

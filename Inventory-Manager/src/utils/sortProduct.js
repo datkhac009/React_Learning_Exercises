@@ -10,7 +10,7 @@ export function sortProducts(product, sortField, sortDir) {
 
   const dir = sortDir === "desc" ? -1 : 1;
   const arrProduct = [...product]; // Copy to avoid mutation
-
+  
   arrProduct.sort((a, b) => {
     let A, B;
 
