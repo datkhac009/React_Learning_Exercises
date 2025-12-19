@@ -7,12 +7,21 @@ import {
   Stack,
   IconButton,
 } from "@mui/material";
-import { Brightness4, Brightness7, Menu } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { useState } from "react";
+import CreateItemProduct from "./../modules/product/CreateItemProduct";
 
-function Header({ darkMode, setDarkMode }) {
+function Header({ darkMode, setDarkMode, refetchdata }) {
+  //  Dialog Create
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleOpen = () => setOpenCreate(true);
+  const handleClose = () => setOpenCreate(false);
   return (
-    <AppBar  position="sticky" elevation={2} >
+    <AppBar
+      position="sticky"
+      elevation={2}
+      sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Toolbar sx={{ gap: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Logo
@@ -21,14 +30,26 @@ function Header({ darkMode, setDarkMode }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" spacing={2} alignItems="center">
-          {/* Navigation links nếu cần */}
-          <Button color="inherit" component={Link} to="/">
-            Products
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            sx={{
+              backgroundColor: "#1976d2",
+              color: "white",
+              fontWeight: "bold",
+              textTransform: "none",
+              transition: "all 0.3s ease-in-out",
+              "&:hover": {
+                backgroundColor: "#1565c0",
+                transform: "translateY(-2px)",
+              },
+            }}
+          >
+            Add Product
           </Button>
-          
           {/* Dark mode toggle */}
-          <IconButton 
-            onClick={() => setDarkMode(!darkMode)} 
+          <IconButton
+            onClick={() => setDarkMode(!darkMode)}
             color="inherit"
             sx={{ ml: 1 }}
           >
@@ -36,6 +57,12 @@ function Header({ darkMode, setDarkMode }) {
           </IconButton>
         </Stack>
       </Toolbar>
+      {/* Create Dialog */}
+      <CreateItemProduct
+        open={openCreate}
+        onClose={handleClose}
+        onRefetch={refetchdata}
+      />
     </AppBar>
   );
 }

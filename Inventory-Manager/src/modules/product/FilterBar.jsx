@@ -79,13 +79,10 @@ function FilterBar({ product }) {
     });
   };
   const handleStatus = (value) => {
-    setCategory(value);
+    setStatus(value);
     updateParams((params) => {
-      if (value) {
-        params.set("status", value);
-      } else {
-        params.delete("status");
-      }
+      if (value) params.set("status", value);
+      else params.delete("status");
     });
   };
 
@@ -93,17 +90,17 @@ function FilterBar({ product }) {
     setPriceRange(value);
   };
   const handlePriceCommit = (value) => {
-    console.log(value);
+    updateParams((params) => {
+      params.set("priceMin", String(value[0]));
+      params.set("priceMax", String(value[1]));
+    });
   };
 
   const handleCreatedAt = (value) => {
     setCreateAt(value);
     updateParams((params) => {
-      if (value) {
-        params.set("createAt", value);
-      } else {
-        params.delete("createAt");
-      }
+      if (value) params.set("createdAt", value);
+      else params.delete("createdAt");
     });
   };
 
@@ -114,24 +111,21 @@ function FilterBar({ product }) {
     setPriceRange([minPrice, maxPrice]);
     setCreateAt("");
 
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      params.delete("caterory");
-      params.delete("status");
-      params.delete("priceMin");
-      params.delete("priceMax");
-      params.delete("createAt");
-      return params;
-    });
+    setSearchParams(
+      (prev) => {
+        const p = new URLSearchParams(prev);
+        p.delete("category");
+        p.delete("status");
+        p.delete("priceMin");
+        p.delete("priceMax");
+        p.delete("createdAt");
+        p.set("page", "1");
+        return p;
+      },
+      { replace: true }
+    );
   };
 
-  // Count active filters
-//   const activeCount = [
-//     categoryUrl,
-//     statusUrl,
-//     priceMinUrl !== minPrice || priceMaxUrl !== maxPrice,
-//     createdAtUrl,
-//   ].filter(Boolean).length;
   return (
     <Accordion>
       {/* <AccordionDetails>Filter Product</AccordionDetails> */}
@@ -175,8 +169,8 @@ function FilterBar({ product }) {
             </Typography>
             <Slider
               value={priceRange}
-              onChange={(e) => handlePriceChange(e.target.value)}
-              onChangeCommitted={(e) => handlePriceCommit(e.target.value)}
+              onChange={(_, value) => handlePriceChange(value)}
+              onChangeCommitted={(_, value) => handlePriceCommit(value)}
               valueLabelDisplay="auto"
               valueLabelFormat={(value) => `${(value / 1000000).toFixed(1)}M`}
               min={minPrice}

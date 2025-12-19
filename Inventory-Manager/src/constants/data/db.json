@@ -161,6 +161,51 @@
       "stock": 45,
       "status": "inactive",
       "createdAt": "2025-12-18"
+    },
+    {
+      "id": "7b6a",
+      "name": "AirPods Pro 4",
+      "category": "Headphone",
+      "price": "9000",
+      "stock": 15,
+      "status": "active",
+      "createdAt": "2025-12-19"
+    },
+    {
+      "id": "0d65",
+      "name": "AirPods Pro 5",
+      "category": "Headphone",
+      "price": "2000000",
+      "stock": 20,
+      "status": "active",
+      "createdAt": "2025-12-19"
+    },
+    {
+      "id": "9eb4",
+      "name": "AirPods Pro 6",
+      "category": "Headphone",
+      "price": "20000",
+      "stock": 12,
+      "status": "active",
+      "createdAt": "2025-12-19"
+    },
+    {
+      "id": "1a93",
+      "name": "AirPods Pro 7",
+      "category": "Headphone",
+      "price": "12000",
+      "stock": 15,
+      "status": "inactive",
+      "createdAt": "2025-12-19"
+    },
+    {
+      "id": "83c4",
+      "name": "AirPods Pro 8",
+      "category": "Headphone",
+      "price": "2000",
+      "stock": 1,
+      "status": "inactive",
+      "createdAt": "2025-12-19"
     }
   ]
 }

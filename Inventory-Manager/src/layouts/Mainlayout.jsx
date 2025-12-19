@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./../components/Header";
 import { ToastContainer } from "react-toastify";
 
-function Mainlayout({darkMode, setDarkMode}) {
+function Mainlayout({darkMode, setDarkMode , refetchdata}) {
   return (
     <div className="app-layout">
       <ToastContainer
@@ -18,7 +18,7 @@ function Mainlayout({darkMode, setDarkMode}) {
         theme="colored"
       />
       <header>
-        <Header darkMode={darkMode} setDarkMode={setDarkMode}/>
+        <Header darkMode={darkMode} setDarkMode={setDarkMode} refetchdata={refetchdata}/>
       </header>
 
       <main className="app-main">
