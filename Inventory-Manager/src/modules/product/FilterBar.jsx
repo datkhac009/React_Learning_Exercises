@@ -126,12 +126,18 @@ function FilterBar({ product }) {
     );
   };
 
-  return (
-    <Accordion>
-      {/* <AccordionDetails>Filter Product</AccordionDetails> */}
-      <Paper elevation={1} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
-        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-          <FormControl size="small" sx={{ minWidth: 170 }}>
+return (
+  <Accordion
+    defaultExpanded
+    disableGutters
+    elevation={0}
+    sx={{ "&:before": { display: "none" }, mb: 1.5 }}
+  >
+    <Paper elevation={1} sx={{ p: 1.5, borderRadius: 1.5 }}>
+      <Stack spacing={1.25}>
+        {/* Category + Status */}
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25}>
+          <FormControl size="small" fullWidth>
             <InputLabel>Category</InputLabel>
             <Select
               value={category}
@@ -146,39 +152,54 @@ function FilterBar({ product }) {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 170 }}>
+          <FormControl size="small" fullWidth>
             <InputLabel>Status</InputLabel>
             <Select
               value={status}
               label="Status"
               onChange={(e) => handleStatus(e.target.value)}
             >
-              {/* <MenuItem value="">All</MenuItem> */}
               <MenuItem value="active">Active</MenuItem>
               <MenuItem value="inactive">Inactive</MenuItem>
             </Select>
           </FormControl>
+        </Stack>
 
-          <Box sx={{ minWidth: 280, flex: 1 }}>
-            <Typography
-              variant="body2"
-              sx={{ mb: 0.5, color: "text.secondary" }}
-            >
-              Price Range: {priceRange[0].toLocaleString()} VND -{" "}
+        {/* Price + Date + Reset (1 row on desktop) */}
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={1.25}
+          alignItems={{ md: "center" }}
+        >
+          {/* Price */}
+          <Box
+            sx={{
+              flex: 2,
+              px: 1,
+              py: 0.75,
+              borderRadius: 1,
+              border: "1px solid",
+              borderColor: "divider",
+              minWidth: 0,
+            }}
+          >
+            <Typography variant="caption" color="text.secondary">
+              Price: {priceRange[0].toLocaleString()} –{" "}
               {priceRange[1].toLocaleString()} VND
             </Typography>
+
             <Slider
+              size="small"
               value={priceRange}
-              onChange={(_, value) => handlePriceChange(value)}
-              onChangeCommitted={(_, value) => handlePriceCommit(value)}
-              valueLabelDisplay="auto"
-              valueLabelFormat={(value) => `${(value / 1000000).toFixed(1)}M`}
+              onChange={(_, v) => handlePriceChange(v)}
+              onChangeCommitted={(_, v) => handlePriceCommit(v)}
               min={minPrice}
               max={maxPrice}
               step={100000}
             />
           </Box>
 
+          {/* Date */}
           <TextField
             size="small"
             type="date"
@@ -186,23 +207,34 @@ function FilterBar({ product }) {
             value={createAt}
             onChange={(e) => handleCreatedAt(e.target.value)}
             InputLabelProps={{ shrink: true }}
+            sx={{ flex: 1, minWidth: { md: 220 } }}
+            fullWidth
           />
 
+          {/* Reset (nút nhỏ như hình, không full width) */}
           <Button
+            size="small"
             variant="outlined"
             onClick={handleReset}
-            sx={{ textTransform: "none", borderRadius: 2, ml: "auto" }}
+            sx={{
+              textTransform: "none",
+              borderRadius: 1,
+              whiteSpace: "nowrap",
+              alignSelf: { xs: "flex-start", md: "center" },
+              width: { xs: "auto", md: "auto" },
+              minWidth: 88,
+              height: 40,
+            }}
           >
             Reset
           </Button>
         </Stack>
-      </Paper>
-      <AccordionActions>
-        <Button>Cancel</Button>
-        <Button>Agree</Button>
-      </AccordionActions>
-    </Accordion>
-  );
+      </Stack>
+    </Paper>
+  </Accordion>
+);
+
+
 }
 
 export default FilterBar;

@@ -193,17 +193,31 @@ function ListProduct({product, isLoading, refetchdata}) {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container 
+      maxWidth="xl" 
+      sx={{ 
+        py: { xs: 2, sm: 3, md: 4 },
+        px: { xs: 1, sm: 2, md: 3 }
+      }}
+    >
       {/* Header */}
       <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: 3,
+         sx={{
+          mb: { xs: 2, sm: 3 },
         }}
       >
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+        <Typography 
+          variant="h4" 
+          fontWeight="800"
+          sx={{
+            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
+            background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            mb: 1
+          }}
+        >
           Inventory Manager
         </Typography>
       </Box>

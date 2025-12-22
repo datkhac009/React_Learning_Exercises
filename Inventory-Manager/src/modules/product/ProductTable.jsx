@@ -12,6 +12,7 @@ import {
   DialogContentText,
   DialogActions,
   TableSortLabel,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
@@ -19,6 +20,7 @@ import { formatDate } from "../../utils/date";
 import { useDelete } from "../../hooks/useDelete";
 import { toast } from "react-toastify";
 import EditItemProduct from "./EditItemProduct";
+import { formatVND } from "../../utils/priceVnd";
 
 function ProductTable({
   toggleSort,
@@ -100,11 +102,15 @@ function ProductTable({
                   color: "white",
                   fontWeight: 600,
                 },
+                "& .MuiTableSortLabel-root:hover": {
+                  color: "white",
+                },
                 "& .MuiTableSortLabel-root": {
                   color: "white",
                 },
                 "& .MuiTableSortLabel-icon": {
                   color: "white !important",
+                  fontWeight: 600,
                 },
               }}
             >
@@ -186,39 +192,53 @@ function ProductTable({
                   <TableCell>{actualIndex}</TableCell>
                   <TableCell>{p.name}</TableCell>
                   <TableCell>{p.category}</TableCell>
-                  <TableCell>{p.price}</TableCell>
+                  <TableCell>{formatVND(p.price)}</TableCell>
                   <TableCell>{p.stock}</TableCell>
                   <TableCell>{p.status}</TableCell>
                   <TableCell>{formatDate(p.createdAt)}</TableCell>
                   <TableCell align="right">
-                    {/* Button Edit */}
-                    <Button
-                      color="primary"
-                      onClick={() => handleEditDialog(p)}
+                    <Stack
+                      direction={{ xs: "column", sm: "row" }}
+                      spacing={0.75}
                       sx={{
-                        backgroundColor: "#1976d2",
-                        padding: "3px 9px",
-                        color: "white",
-                        textTransform: "none",
-                        transition: "all 0.3s ease-in-out",
-                        marginRight: "2px",
-                        "&:hover": {
-                          backgroundColor: "#1565c0",
-                        },
+                        justifyContent: "flex-end",
+                        alignItems: "flex-end",
                       }}
                     >
-                      Edit
-                    </Button>
-                    {/* Button Delete */}
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      size="small"
-                      disabled={isDeleteting}
-                      onClick={() => handleOpenDialog(p)}
-                    >
-                      Delete
-                    </Button>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => handleEditDialog(p)}
+                        sx={{
+                          textTransform: "none",
+                          minWidth: { xs: 76, sm: 64 },
+                          px: 1.25,
+                          py: 0.5,
+                          borderRadius: 1,
+                          fontSize: 12,
+                        }}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        disabled={isDeleteting}
+                        onClick={() => handleOpenDialog(p)}
+                        sx={{
+                          textTransform: "none",
+                          minWidth: { xs: 76, sm: 64 },
+                          px: 1.25,
+                          py: 0.5,
+                          borderRadius: 1,
+                          fontSize: 12,
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               );

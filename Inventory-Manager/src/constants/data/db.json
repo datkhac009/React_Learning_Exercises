@@ -206,6 +206,15 @@
       "stock": 1,
       "status": "inactive",
       "createdAt": "2025-12-19"
+    },
+    {
+      "id": "85b6",
+      "name": "MacBook Air M15",
+      "category": "Laptop",
+      "price": "32000000",
+      "stock": 9,
+      "status": "active",
+      "createdAt": "2025-12-22"
     }
   ]
 }

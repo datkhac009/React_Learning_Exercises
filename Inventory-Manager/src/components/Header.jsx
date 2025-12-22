@@ -7,57 +7,92 @@ import {
   Stack,
   IconButton,
 } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { Brightness4, Brightness7, Add } from "@mui/icons-material";
 import { useState } from "react";
 import CreateItemProduct from "./../modules/product/CreateItemProduct";
 
 function Header({ darkMode, setDarkMode, refetchdata }) {
-  //  Dialog Create
   const [openCreate, setOpenCreate] = useState(false);
   const handleOpen = () => setOpenCreate(true);
   const handleClose = () => setOpenCreate(false);
+  
   return (
     <AppBar
       position="sticky"
-      elevation={2}
-      sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      elevation={0}
+      sx={{ 
+        top: 0,
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        background: darkMode 
+          ? 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'
+          : 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
+        borderBottom: '1px solid',
+        borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.2)',
+      }}
     >
-      <Toolbar sx={{ gap: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Logo
+      <Toolbar sx={{ gap: 2, py: 1.5 }}>
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            fontWeight: 800,
+            letterSpacing: '0.5px',
+            background: 'linear-gradient(45deg, #fff 30%, rgba(255,255,255,0.8) 90%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+           Inventory
         </Typography>
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={1.5} alignItems="center">
           <Button
             onClick={handleOpen}
             variant="contained"
+            startIcon={<Add />}
             sx={{
-              backgroundColor: "#1976d2",
-              color: "white",
-              fontWeight: "bold",
-              textTransform: "none",
-              transition: "all 0.3s ease-in-out",
+              backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              color: 'white',
+              fontWeight: 600,
+              textTransform: 'none',
+              px: 3,
+              py: 1,
+              borderRadius: 2,
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               "&:hover": {
-                backgroundColor: "#1565c0",
-                transform: "translateY(-2px)",
+                backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
               },
             }}
           >
             Add Product
           </Button>
-          {/* Dark mode toggle */}
+          
           <IconButton
             onClick={() => setDarkMode(!darkMode)}
-            color="inherit"
-            sx={{ ml: 1 }}
+            sx={{ 
+              color: 'white',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                transform: 'rotate(180deg)',
+              }
+            }}
           >
             {darkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </Stack>
       </Toolbar>
-      {/* Create Dialog */}
+      
       <CreateItemProduct
         open={openCreate}
         onClose={handleClose}
