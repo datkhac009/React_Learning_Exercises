@@ -16,16 +16,7 @@ function Spinner({rows}) {
         />
       ))}
     </Box>
-    //  {/* <Box
-    //   sx={{
-    //     minHeight: "200px", 
-    //     display: "flex",
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //   }}
-    // >
-    //   <CircularProgress />
-    // </Box> */}
+
   );
 }
 

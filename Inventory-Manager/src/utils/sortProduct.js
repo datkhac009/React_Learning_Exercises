@@ -3,9 +3,8 @@ function parseDate(dateValue) {
   if (!dateValue) return 0;
   return new Date(dateValue).getTime() || 0;
 }
-
+//sort product 
 export function sortProducts(product, sortField, sortDir) {
-  // If no sort criteria, return original product
   if (!sortField || !sortDir) return product;
 
   const dir = sortDir === "desc" ? -1 : 1;

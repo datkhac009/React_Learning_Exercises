@@ -6,15 +6,19 @@ import {
   DialogTitle,
   MenuItem,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useCreateProduct } from "../../hooks/useCreateProduct";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
-function CreateItemProduct({ open, onClose, onRefetch  }) {
+function CreateItemProduct({ open, onClose, onRefetch }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const today = new Date().toISOString().slice(0, 10);
   const { CreateProduct } = useCreateProduct(API_BASE_URL);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { register, handleSubmit, formState, reset, control } = useForm({
     defaultValues: {
       name: "",
@@ -38,6 +42,7 @@ function CreateItemProduct({ open, onClose, onRefetch  }) {
 
   const onSubmit = async (data) => {
     try {
+      setIsSubmitting(true);
       if (!data) {
         toast.error("Create product failed");
         return;
@@ -45,7 +50,7 @@ function CreateItemProduct({ open, onClose, onRefetch  }) {
 
       await CreateProduct(data);
       toast.success("Create product successfully");
-      
+
       // load lại danh sách
       if (onRefetch) {
         onRefetch();
@@ -55,6 +60,8 @@ function CreateItemProduct({ open, onClose, onRefetch  }) {
     } catch (error) {
       console.error("Error creating product:", error);
       toast.error("Failed to create product");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,7 +82,7 @@ function CreateItemProduct({ open, onClose, onRefetch  }) {
         maxWidth="sm"
         disableRestoreFocus
         onClose={(event, reason) => {
-          // Không cho đóng khi click ra ngoài
+          // Không đóng Dialog khi click ra ngoài
           if (reason === "backdropClick" || reason === "escapeKeyDown") return;
           handleClose();
         }}
@@ -182,9 +189,16 @@ function CreateItemProduct({ open, onClose, onRefetch  }) {
           </DialogContent>
           {/* Action buttons */}
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained">
-              Create
+            <Button onClick={handleClose} disabled={isSubmitting}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting}
+              startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
+            >
+              {isSubmitting ? "Creating..." : "Create"}
             </Button>
           </DialogActions>
         </form>

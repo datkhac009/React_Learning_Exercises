@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -201,7 +202,8 @@ function EditItemProduct({ open, onClose, onRefetch, product }) {
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" variant="contained" disabled={isEditting}>
+          <Button type="submit" variant="contained" disabled={isEditting} startIcon={isEditting ? <CircularProgress size={20} /> : null}
+          >
             {isEditting ? "Updating..." : "Update"}
           </Button>
         </DialogActions>

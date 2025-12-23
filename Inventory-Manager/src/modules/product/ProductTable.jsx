@@ -46,8 +46,13 @@ function ProductTable({
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  if (loading) return <Spinner rows={products.length} />;
-
+  if (loading) {
+    return (
+      <TableContainer>
+        <Spinner rows={8} />
+      </TableContainer>
+    );
+  }
   // Hàm mở dialog
   const handleOpenDialog = (product) => {
     setSelectedProduct(product);
@@ -105,8 +110,11 @@ function ProductTable({
                 "& .MuiTableSortLabel-root:hover": {
                   color: "white",
                 },
+                  "& .MuiTableSortLabel-root:active": {
+                  color: "black !important",
+                },
                 "& .MuiTableSortLabel-root": {
-                  color: "white",
+                  color: "white !important",
                 },
                 "& .MuiTableSortLabel-icon": {
                   color: "white !important",
