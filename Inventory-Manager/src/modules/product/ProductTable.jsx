@@ -21,6 +21,7 @@ import { useDelete } from "../../hooks/useDelete";
 import { toast } from "react-toastify";
 import EditItemProduct from "./EditItemProduct";
 import { formatVND } from "../../utils/priceVnd";
+import { Margin } from "@mui/icons-material";
 
 function ProductTable({
   toggleSort,
@@ -97,8 +98,8 @@ function ProductTable({
 
   return (
     <>
-      <TableContainer sx={{ maxHeight: 400 }}>
-        <Table stickyHeader size="small">
+      <TableContainer sx={{ maxHeight: 400 ,marginTop:"0.5rem"}}>
+        <Table stickyHeader size="small" >
           <TableHead>
             <TableRow
               sx={{

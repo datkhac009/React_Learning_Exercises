@@ -4,14 +4,14 @@ export const useCreateProduct = (url) => {
   console.log(url)
   const [isCreating, setIsCreateting] = useState(false);
   const [error, setError] = useState(null);
-
+  const baseurl = `${url.replace(/\/$/, "")}/products`;
+  
   async function CreateProduct(newData) {
     console.log("value",newData)
     try {
       setError(null);
       setIsCreateting(true);
       //fetch add vào db.json
-      const baseurl = `${url.replace(/\/$/, "")}/products`;
       const res = await fetch(baseurl, {
         method: "POST",
         headers: {

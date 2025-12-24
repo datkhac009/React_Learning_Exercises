@@ -140,6 +140,8 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
               {...register("price", {
                 required: "Price is required",
                 min: { value: 1, message: "Price must be > 0" },
+                max: { value: 100000000, message: "Price must be < 100,000,000" },
+
               })}
             />
 

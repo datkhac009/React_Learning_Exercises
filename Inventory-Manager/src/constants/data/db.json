@@ -150,7 +150,7 @@
       "category": "Headphone",
       "price": "9999",
       "stock": 25,
-      "status": "active",
+      "status": "inactive",
       "createdAt": "2025-12-18"
     },
     {
@@ -168,7 +168,7 @@
       "category": "Headphone",
       "price": "9000",
       "stock": 15,
-      "status": "active",
+      "status": "inactive",
       "createdAt": "2025-12-19"
     },
     {
@@ -186,7 +186,7 @@
       "category": "Headphone",
       "price": "20000",
       "stock": 12,
-      "status": "active",
+      "status": "inactive",
       "createdAt": "2025-12-19"
     },
     {

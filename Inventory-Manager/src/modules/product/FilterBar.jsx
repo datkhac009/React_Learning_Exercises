@@ -11,8 +11,6 @@ import {
   Typography,
   Box,
   Accordion,
-  AccordionActions,
-  AccordionDetails,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -31,7 +29,7 @@ function FilterBar({ product }) {
   // date
   const createdAtUrl = searchParams.get("createdAt") || "";
 
-  // local state
+  //state
   const [category, setCategory] = useState(categoryUrl);
   const [status, setStatus] = useState(statusUrl);
   const [priceRange, setPriceRange] = useState([
@@ -58,12 +56,12 @@ function FilterBar({ product }) {
     return [...new Set(product.map((p) => p.category).filter(Boolean))];
   }, [product]);
 
-  // helper update URL
+  // update URL
   const updateParams = (fn) => {
     setSearchParams((prev) => {
       const p = new URLSearchParams(prev);
       fn(p);
-      p.set("page", "1"); // đổi filter -> về trang 1
+      p.set("page","1"); // đổi filter -> về trang 1
       return p;
     });
   };
@@ -131,7 +129,7 @@ return (
     defaultExpanded
     disableGutters
     elevation={0}
-    sx={{ "&:before": { display: "none" }, mb: 1.5 }}
+    sx={{ "&:before": { display: "none" }, mb: 1.5  }}
   >
     <Paper elevation={1} sx={{ p: 1.5, borderRadius: 1.5 }}>
       <Stack spacing={1.25}>
@@ -165,7 +163,7 @@ return (
           </FormControl>
         </Stack>
 
-        {/* Price + Date + Reset (1 row on desktop) */}
+        {/* Price + Date + Reset  */}
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={1.25}

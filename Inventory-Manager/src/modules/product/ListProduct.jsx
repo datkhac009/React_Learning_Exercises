@@ -15,7 +15,6 @@ import FilterBar from "./FilterBar";
 import { sortProducts } from "../../utils/sortProduct";
 
 function ListProduct({product, isLoading, refetchdata}) {
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const ITEMS_PER_PAGE = 8;
@@ -243,7 +242,7 @@ function ListProduct({product, isLoading, refetchdata}) {
           }}
         />
       </Paper>
-      {/* FilterBar  */}
+      {/* FilterBar  */}                                                            
       <Box>
         <FilterBar product={product} />
       </Box>
