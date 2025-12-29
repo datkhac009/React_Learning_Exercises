@@ -656,6 +656,24 @@
       "stock": 18,
       "status": "active",
       "createdAt": "2025-10-22"
+    },
+    {
+      "id": "56b8",
+      "name": "MacBook Air M202",
+      "category": "Laptop",
+      "price": "23000000",
+      "stock": 12,
+      "status": "active",
+      "createdAt": "2025-12-26"
+    },
+    {
+      "id": "a8fb",
+      "name": "MacBook Air M003",
+      "category": "Laptop",
+      "price": "25000000",
+      "stock": 15,
+      "status": "active",
+      "createdAt": "2025-12-26"
     }
   ]
 }

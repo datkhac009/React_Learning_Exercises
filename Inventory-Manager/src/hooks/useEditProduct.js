@@ -19,10 +19,12 @@ export const useEditProduct = (url) => {
       if (!res.ok) {
         throw new Error("Error Update");
       }
-      const update = res.json();
+      const update = await res.json();
       return update;
     } catch (error) {
       setError(error);
+      throw error;
+
     } finally {
       setIsEditting(false);
     }

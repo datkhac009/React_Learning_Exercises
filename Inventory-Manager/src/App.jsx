@@ -13,11 +13,11 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const {isLoading, product, refetchdata } = useProduct(API_BASE_URL);
+  const {isLoading, product, refetchdata, error } = useProduct(API_BASE_URL);
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Mainlayout darkMode={darkMode} setDarkMode={setDarkMode} refetchdata={refetchdata}/>,
+      element: <Mainlayout darkMode={darkMode} setDarkMode={setDarkMode} refetchdata={refetchdata}  error={error} isLoading={isLoading}/>,
       children: [
         {
           index: true,

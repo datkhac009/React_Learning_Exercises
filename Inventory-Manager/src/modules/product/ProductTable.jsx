@@ -13,6 +13,7 @@ import {
   DialogActions,
   TableSortLabel,
   Stack,
+  Box,
 } from "@mui/material";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
@@ -98,8 +99,8 @@ function ProductTable({
 
   return (
     <>
-      <TableContainer sx={{ maxHeight: 400 ,marginTop:"0.5rem"}}>
-        <Table stickyHeader size="small" >
+      <TableContainer sx={{ maxHeight: 400, marginTop: "0.5rem" }}>
+        <Table stickyHeader size="small">
           <TableHead>
             <TableRow
               sx={{
@@ -111,7 +112,7 @@ function ProductTable({
                 "& .MuiTableSortLabel-root:hover": {
                   color: "white",
                 },
-                  "& .MuiTableSortLabel-root:active": {
+                "& .MuiTableSortLabel-root:active": {
                   color: "black !important",
                 },
                 "& .MuiTableSortLabel-root": {

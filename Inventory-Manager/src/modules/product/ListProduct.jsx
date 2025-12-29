@@ -6,6 +6,10 @@ import {
   TextField,
   InputAdornment,
   Pagination,
+  Select,
+  MenuItem,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ProductTable from "./ProductTable";
@@ -14,10 +18,14 @@ import { useSearchParams } from "react-router-dom";
 import FilterBar from "./FilterBar";
 import { sortProducts } from "../../utils/sortProduct";
 
-function ListProduct({product, isLoading, refetchdata}) {
+function ListProduct({ product, isLoading, refetchdata }) {
+  // themeMobie
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const ITEMS_PER_PAGE = 8;
+  const itemsPerPage = Number(searchParams.get("itemsPerPage")) || 10;
 
   //  1) Read state from URL
   const q = searchParams.get("q") || ""; // keyword
@@ -132,14 +140,14 @@ function ListProduct({product, isLoading, refetchdata}) {
   //  Pagination hiện 8 dòng 1 trang
 
   const paginationProduct = useMemo(() => {
-    const start = (page - 1) * ITEMS_PER_PAGE;
-    return sortedProducts.slice(start, start + ITEMS_PER_PAGE);
-  }, [sortedProducts, page]);
+    const start = (page - 1) * itemsPerPage;
+    return sortedProducts.slice(start, start + itemsPerPage);
+  }, [sortedProducts, page, itemsPerPage]);
 
   //  Nếu data thay đổi (filter/sort) làm page hiện tại vượt totalPage
   const totalPage = Math.max(
     1,
-    Math.ceil(sortedProducts.length / ITEMS_PER_PAGE)
+    Math.ceil(sortedProducts.length / itemsPerPage)
   );
 
   useEffect(() => {
@@ -192,97 +200,182 @@ function ListProduct({product, isLoading, refetchdata}) {
   };
 
   return (
-    <Container 
-      maxWidth="xl" 
-      sx={{ 
-        py: { xs: 2, sm: 3, md: 4 },
-        px: { xs: 1, sm: 2, md: 3 }
-      }}
-    >
-      {/* Header */}
-      <Box
-         sx={{
-          mb: { xs: 2, sm: 3 },
+    <>
+      <Container
+        maxWidth="xl"
+        sx={{
+          py: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 1, sm: 2, md: 3 },
         }}
       >
-        <Typography 
-          variant="h4" 
-          fontWeight="800"
+        {/* Header */}
+        <Box
           sx={{
-            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
-            background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            mb: 1
+            mb: { xs: 2, sm: 3 },
           }}
         >
-          Inventory Manager
-        </Typography>
-      </Box>
+          <Typography
+            variant="h4"
+            fontWeight="800"
+            sx={{
+              fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+              background: "linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: 1,
+            }}
+          >
+            Inventory Manager
+          </Typography>
+        </Box>
 
-      {/* Search */}
-      <Paper elevation={2} sx={{ p: 0.5, mb: 1, backgroundColor: "white" }}>
-        <TextField
-          fullWidth
-          placeholder="Search products by name..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: "text.secondary" }} />
-              </InputAdornment>
-            ),
-          }}
+        {/* Search */}
+        <Paper
+          elevation={2}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": { border: "none" },
-            },
+            p: 0.5,
+            mb: 2.5,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1a1a1a" : "white",
+            borderColor: "divider",
           }}
-        />
-      </Paper>
-      {/* FilterBar  */}                                                            
-      <Box>
-        <FilterBar product={product} />
-      </Box>
+        >
+          <TextField
+            fullWidth
+            placeholder="Search products by name..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "text.secondary" }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": { border: "none" },
+              },
+            }}
+          />
+        </Paper>
+        {/* FilterBar  */}
+        <Box>
+          <FilterBar product={product} />
+        </Box>
 
-      {/* message total */}
-      {(q || categoryParam || statusParam || createdAtParam) && (
-        <Typography variant="body2" sx={{ mt: 1, color: "text.secondary" }}>
-          {filteredProducts.length === 0
-            ? "No products found"
-            : `Total: ${filteredProducts.length}`}
-        </Typography>
-      )}
+        {/* message total */}
+        {(q || categoryParam || statusParam || createdAtParam) && (
+          <Typography variant="body2" sx={{ mt: 1, color: "text.secondary" }}>
+            {filteredProducts.length === 0
+              ? "No products found"
+              : `Total: ${filteredProducts.length}`}
+          </Typography>
+        )}
 
-      {/* Table */}
-      <Paper elevation={1}>
-        <ProductTable
-          toggleSort={toggleSort}
-          products={paginationProduct}
-          loading={isLoading}
-          onRefetch={refetchdata}
-          currentPage={page}
-          itemsPerPage={ITEMS_PER_PAGE}
-          sortField={sortField}
-          sortDir={sortDir === "desc" ? "desc" : "asc"} // đảm bảo luôn hợp lệ
-        />
-      </Paper>
+        {/* Table */}
+        <Paper elevation={1}>
+          <ProductTable
+            toggleSort={toggleSort}
+            products={paginationProduct}
+            loading={isLoading}
+            onRefetch={refetchdata}
+            currentPage={page}
+            itemsPerPage={itemsPerPage}
+            sortField={sortField}
+            sortDir={sortDir === "desc" ? "desc" : "asc"} // đảm bảo luôn hợp lệ
+          />
+        </Paper>
 
-      {/* Pagination */}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-        <Pagination
-          count={totalPage}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-          size="large"
-          showFirstButton
-          showLastButton
-        />
-      </Box>
-    </Container>
+        {/* Pagination dropdown  */}
+        <Box
+          sx={{
+            mt: 2,
+            px: { xs: 1, sm: 2 },
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "stretch", sm: "center" },
+            justifyContent: "space-between",
+            gap: { xs: 1.25, sm: 2 },
+          }}
+        >
+          {/* Info */}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: { xs: "center", sm: "left" } }}
+          >
+            Shows line {(page - 1) * itemsPerPage + 1} -{" "}
+            {Math.min(page * itemsPerPage, sortedProducts.length)}/
+            {sortedProducts.length}
+          </Typography>
+
+          {/* Controls */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: "center",
+              justifyContent: "center",
+              gap: { xs: 1, sm: 2 },
+            }}
+          >
+            {/* Pagination */}
+            <Pagination
+              count={totalPage}
+              page={page}
+              onChange={handleChangePage}
+              color="primary"
+              variant="outlined"
+              shape="rounded"
+              showFirstButton={!isMobile}
+              showLastButton={!isMobile}
+              siblingCount={isMobile ? 0 : 1}
+              boundaryCount={1}
+              size={isMobile ? "small" : "medium"}
+              sx={{
+                "& .MuiPaginationItem-root": { borderRadius: 1 },
+                "& .Mui-selected": {
+                  backgroundColor: "#1976d2 !important",
+                  color: "white",
+                },
+                "& .MuiPaginationItem-root:hover": {
+                  backgroundColor: "rgb(17, 82, 147)",
+                  color: "white",
+                },
+              }}
+            />
+
+            {/* Items per page selector */}
+            <Select
+              size="small"
+              value={itemsPerPage}
+              onChange={(e) => {
+                setSearchParams(
+                  (prev) => {
+                    const p = new URLSearchParams(prev);
+                    p.set("itemsPerPage", String(e.target.value));
+                    p.set("page", "1");
+                    return p;
+                  },
+                  { replace: true }
+                );
+              }}
+              sx={{
+                minWidth: 140,
+                fontSize: "0.875rem",
+                fontWeight: 500,
+              }}
+            >
+              <MenuItem value={10}>10 line / page</MenuItem>
+              <MenuItem value={25}>25 line / page</MenuItem>
+              <MenuItem value={50}>50 line / page</MenuItem>
+            </Select>
+          </Box>
+        </Box>
+      </Container>
+    </>
   );
 }
 

@@ -11,7 +11,12 @@ import {
   Typography,
   Box,
   Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FilterListIcon from "@mui/icons-material/FilterList";
+
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -61,7 +66,7 @@ function FilterBar({ product }) {
     setSearchParams((prev) => {
       const p = new URLSearchParams(prev);
       fn(p);
-      p.set("page","1"); // đổi filter -> về trang 1
+      p.set("page", "1"); // đổi filter -> về trang 1
       return p;
     });
   };
@@ -124,115 +129,195 @@ function FilterBar({ product }) {
     );
   };
 
-return (
-  <Accordion
-    defaultExpanded
-    disableGutters
-    elevation={0}
-    sx={{ "&:before": { display: "none" }, mb: 1.5  }}
-  >
-    <Paper elevation={1} sx={{ p: 1.5, borderRadius: 1.5 }}>
-      <Stack spacing={1.25}>
-        {/* Category + Status */}
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25}>
-          <FormControl size="small" fullWidth>
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={category}
-              label="Category"
-              onChange={(e) => handleCategory(e.target.value)}
-            >
-              {categories.map((c) => (
-                <MenuItem key={c} value={c}>
-                  {c}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+  const hasActiveFilters =
+    category ||
+    status ||
+    createAt ||
+    priceRange[0] !== minPrice ||
+    priceRange[1] !== maxPrice;
 
-          <FormControl size="small" fullWidth>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={status}
-              label="Status"
-              onChange={(e) => handleStatus(e.target.value)}
-            >
-              <MenuItem value="active">Active</MenuItem>
-              <MenuItem value="inactive">Inactive</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
+  return (
+    <Accordion
+      defaultExpanded
+      elevation={0}
+      sx={{
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: "8px !important",
+        "&:before": { display: "none" },
+        overflow: "hidden",
+        backgroundColor: (theme) =>
+          theme.palette.mode === "dark" ? theme.palette.grey[900] : "#f9fafb",
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark"
+              ? theme.palette.grey[800]
+              : theme.palette.grey[100],
 
-        {/* Price + Date + Reset  */}
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={1.25}
-          alignItems={{ md: "center" }}
-        >
-          {/* Price */}
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          minHeight: 56,
+
+          "&.Mui-expanded": {
+            minHeight: 56,
+          },
+          "& .MuiAccordionSummary-content": {
+            my: 1.5,
+            alignItems: "center",
+            gap: 1.5,
+          },
+          "& .MuiSvgIcon-root": {
+            color: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(255,255,255,0.7)"
+                : "rgba(0,0,0,0.54)",
+          },
+        }}
+      >
+        <FilterListIcon
+          sx={{
+            color: "primary.main",
+            fontSize: 22,
+          }}
+        />
+        <Typography variant="body1" fontWeight={600} color="text.primary">
+          Filters
+        </Typography>
+
+        {/* Badge hiển thị số filter đang active */}
+        {hasActiveFilters && (
           <Box
             sx={{
-              flex: 2,
-              px: 1,
-              py: 0.75,
+              ml: "auto",
+              mr: 2,
+              px: 1.5,
+              py: 0.25,
               borderRadius: 1,
-              border: "1px solid",
-              borderColor: "divider",
-              minWidth: 0,
+              backgroundColor: "primary.main",
+              color: "white",
+              fontSize: "0.75rem",
+              fontWeight: 600,
             }}
           >
-            <Typography variant="caption" color="text.secondary">
-              Price: {priceRange[0].toLocaleString()} –{" "}
-              {priceRange[1].toLocaleString()} VND
-            </Typography>
-
-            <Slider
-              size="small"
-              value={priceRange}
-              onChange={(_, v) => handlePriceChange(v)}
-              onChangeCommitted={(_, v) => handlePriceCommit(v)}
-              min={minPrice}
-              max={maxPrice}
-              step={100000}
-            />
+            Active
           </Box>
+        )}
+      </AccordionSummary>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 1.5,
+          borderRadius: 1.5,
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? theme.palette.grey[850] : "#ffffff",
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Stack spacing={1.25}>
+          {/* Category + Status */}
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25}>
+            <FormControl size="small" fullWidth>
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={category}
+                label="Category"
+                onChange={(e) => handleCategory(e.target.value)}
+              >
+                {categories.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {c}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          {/* Date */}
-          <TextField
-            size="small"
-            type="date"
-            label="Created At"
-            value={createAt}
-            onChange={(e) => handleCreatedAt(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            sx={{ flex: 1, minWidth: { md: 220 } }}
-            fullWidth
-          />
+            <FormControl size="small" fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={status}
+                label="Status"
+                onChange={(e) => handleStatus(e.target.value)}
+              >
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
 
-          {/* Reset (nút nhỏ như hình, không full width) */}
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={handleReset}
-            sx={{
-              textTransform: "none",
-              borderRadius: 1,
-              whiteSpace: "nowrap",
-              alignSelf: { xs: "flex-start", md: "center" },
-              width: { xs: "auto", md: "auto" },
-              minWidth: 88,
-              height: 40,
-            }}
+          {/* Price + Date + Reset  */}
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={1.25}
+            alignItems={{ md: "center" }}
           >
-            Reset
-          </Button>
+            {/* Price */}
+            <Box
+              sx={{
+                flex: 2,
+                px: 1,
+                py: 0.75,
+                borderRadius: 1,
+                border: "1px solid",
+                borderColor: "divider",
+                minWidth: 0,
+              }}
+            >
+              <Typography variant="caption" color="text.secondary">
+                Price: {priceRange[0].toLocaleString()} –{" "}
+                {priceRange[1].toLocaleString()} VND
+              </Typography>
+
+              <Slider
+                size="small"
+                value={priceRange}
+                onChange={(_, v) => handlePriceChange(v)}
+                onChangeCommitted={(_, v) => handlePriceCommit(v)}
+                min={minPrice}
+                max={maxPrice}
+                step={100000}
+              
+              />
+            </Box>
+
+            {/* Date */}
+            <TextField
+              size="small"
+              type="date"
+              label="Created At"
+              value={createAt}
+              onChange={(e) => handleCreatedAt(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ flex: 1, minWidth: { md: 220 } }}
+              fullWidth
+            />
+
+            {/* Reset (nút nhỏ như hình, không full width) */}
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={handleReset}
+              sx={{
+                textTransform: "none",
+                borderRadius: 1,
+                whiteSpace: "nowrap",
+                alignSelf: { xs: "flex-start", md: "center" },
+                width: { xs: "auto", md: "auto" },
+                minWidth: 88,
+                height: 40,
+              }}
+            >
+              Reset
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Paper>
-  </Accordion>
-);
-
-
+      </Paper>
+    </Accordion>
+  );
 }
 
 export default FilterBar;
