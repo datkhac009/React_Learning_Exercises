@@ -338,7 +338,7 @@ function ListProduct({ product, isLoading, refetchdata }) {
                 "& .MuiPaginationItem-root": { borderRadius: 1 },
                 "& .Mui-selected": {
                   backgroundColor: "#1976d2 !important",
-                  color: "white",
+                  color: "white !important",
                 },
                 "& .MuiPaginationItem-root:hover": {
                   backgroundColor: "rgb(17, 82, 147)",

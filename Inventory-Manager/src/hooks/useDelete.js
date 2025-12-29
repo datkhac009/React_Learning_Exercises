@@ -13,11 +13,12 @@ async function DeleteProduct(id) {
         if(!res.ok){
             throw new Error(`Cannot delete product: ${res.status}`);
         }
+        if (res.status === 204) return true;
         const deleteted = await res.json()
         return deleteted;
     } catch (error) {
         setError(error)
-        console.log(error)
+        throw error
     }finally{
         setIsDeleteting(false)
     }

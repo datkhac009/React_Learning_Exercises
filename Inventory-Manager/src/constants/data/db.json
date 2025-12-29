@@ -253,15 +253,6 @@
       "createdAt": "2025-07-25"
     },
     {
-      "id": "18",
-      "name": "MacBook Pro 14\" M3",
-      "category": "Laptop",
-      "price": 45000000,
-      "stock": 8,
-      "status": "active",
-      "createdAt": "2025-11-01"
-    },
-    {
       "id": "19",
       "name": "HP Spectre x360",
       "category": "Laptop",

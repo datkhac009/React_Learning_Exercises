@@ -157,11 +157,9 @@ function FilterBar({ product }) {
             theme.palette.mode === "dark"
               ? theme.palette.grey[800]
               : theme.palette.grey[100],
-
           borderBottom: "1px solid",
           borderColor: "divider",
           minHeight: 56,
-
           "&.Mui-expanded": {
             minHeight: 56,
           },
@@ -188,7 +186,6 @@ function FilterBar({ product }) {
           Filters
         </Typography>
 
-        {/* Badge hiển thị số filter đang active */}
         {hasActiveFilters && (
           <Box
             sx={{
@@ -207,115 +204,169 @@ function FilterBar({ product }) {
           </Box>
         )}
       </AccordionSummary>
-      <Paper
-        elevation={0}
-        sx={{
-          p: 1.5,
-          borderRadius: 1.5,
-          backgroundColor: (theme) =>
-            theme.palette.mode === "dark" ? theme.palette.grey[850] : "#ffffff",
-          border: "1px solid",
-          borderColor: "divider",
-        }}
-      >
-        <Stack spacing={1.25}>
-          {/* Category + Status */}
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25}>
-            <FormControl size="small" fullWidth>
-              <InputLabel>Category</InputLabel>
-              <Select
-                value={category}
-                label="Category"
-                onChange={(e) => handleCategory(e.target.value)}
-              >
-                {categories.map((c) => (
-                  <MenuItem key={c} value={c}>
-                    {c}
+
+      <AccordionDetails>
+        <Paper
+          elevation={0}
+          sx={{
+            p: 2,
+            borderRadius: 1.5,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark"
+                ? theme.palette.grey[850]
+                : "#ffffff",
+            border: "1px solid",
+            borderColor: "divider",
+          }}
+        >
+          <Stack spacing={2}>
+            {/* Category + Status */}
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <FormControl sx={{ flex: 3 }}>
+                <InputLabel shrink>Category</InputLabel>
+                <Select
+                  value={category}
+                  label="Category"
+                  onChange={(e) => handleCategory(e.target.value)}
+                  displayEmpty
+                  notched
+                  sx={{ height: 46 }}
+                >
+                  <MenuItem value="">
+                    <em>All Categories</em>
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  {categories.map((c) => (
+                    <MenuItem key={c} value={c}>
+                      {c}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl size="small" fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={status}
-                label="Status"
-                onChange={(e) => handleStatus(e.target.value)}
-              >
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="inactive">Inactive</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
+              <FormControl sx={{ flex: 2 }}>
+                <InputLabel shrink>Status</InputLabel>
+                <Select
+                  value={status}
+                  label="Status"
+                  onChange={(e) => handleStatus(e.target.value)}
+                  displayEmpty
+                  notched
+                  sx={{ height: 46 }}
+                >
+                  <MenuItem value="">
+                    <em>All Status</em>
+                  </MenuItem>
+                  <MenuItem value="active">Active</MenuItem>
+                  <MenuItem value="inactive">Inactive</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
 
-          {/* Price + Date + Reset  */}
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            spacing={1.25}
-            alignItems={{ md: "center" }}
-          >
-            {/* Price */}
-            <Box
-              sx={{
-                flex: 2,
-                px: 1,
-                py: 0.75,
-                borderRadius: 1,
-                border: "1px solid",
-                borderColor: "divider",
-                minWidth: 0,
-              }}
-            >
-              <Typography variant="caption" color="text.secondary">
-                Price: {priceRange[0].toLocaleString()} –{" "}
-                {priceRange[1].toLocaleString()} VND
-              </Typography>
+            {/* Price + Date*/}
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
 
-              <Slider
-                size="small"
-                value={priceRange}
-                onChange={(_, v) => handlePriceChange(v)}
-                onChangeCommitted={(_, v) => handlePriceCommit(v)}
-                min={minPrice}
-                max={maxPrice}
-                step={100000}
-              
+              {/* Price */}
+              <Box sx={{ flex: 3, minWidth: 0, position: "relative" }}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -9,
+                    left: 12,
+                    px: 0.5,
+                    fontSize: 12,
+                    color: "text.secondary",
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === "dark"
+                        ? theme.palette.grey[850]
+                        : "#fff",
+                    zIndex: 2,
+                  }}
+                >
+                  Price
+                </Box>
+
+                <Box
+                  sx={{
+                    borderRadius: 1,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    height: 46,
+                    px: 2,
+                    position: "relative",
+                    overflow: "hidden", 
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{
+                      position: "absolute",
+                      top: 6,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      pointerEvents: "none",
+                      whiteSpace: "nowrap",
+                      maxWidth: "calc(100% - 32px)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      zIndex: 1,
+                    }}
+                  >
+                    {priceRange[0].toLocaleString()} –{" "}
+                    {priceRange[1].toLocaleString()} VND
+                  </Typography>
+
+                  <Slider
+                    size="small"
+                    value={priceRange}
+                    onChange={(_, v) => handlePriceChange(v)}
+                    onChangeCommitted={(_, v) => handlePriceCommit(v)}
+                    min={minPrice}
+                    max={maxPrice}
+                    step={100000}
+                    sx={{
+                      width: "100%",
+                      mt: 1.6,
+                    }}
+                  />
+                </Box>
+              </Box>
+
+              {/* Date */}
+              <TextField
+                type="date"
+                label="Created At"
+                value={createAt}
+                onChange={(e) => handleCreatedAt(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  flex: 2,
+                  "& .MuiInputBase-root": { height: 46 },
+                  "& .MuiInputBase-input": { textAlign: "center" },
+                }}
               />
+            </Stack>
+
+            {/* Reset button */}
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="outlined"
+                onClick={handleReset}
+                sx={{
+                  textTransform: "none",
+                  borderRadius: 1,
+                  minWidth: 30,
+                  height: 36,
+                }}
+              >
+                Reset
+              </Button>
             </Box>
-
-            {/* Date */}
-            <TextField
-              size="small"
-              type="date"
-              label="Created At"
-              value={createAt}
-              onChange={(e) => handleCreatedAt(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              sx={{ flex: 1, minWidth: { md: 220 } }}
-              fullWidth
-            />
-
-            {/* Reset (nút nhỏ như hình, không full width) */}
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={handleReset}
-              sx={{
-                textTransform: "none",
-                borderRadius: 1,
-                whiteSpace: "nowrap",
-                alignSelf: { xs: "flex-start", md: "center" },
-                width: { xs: "auto", md: "auto" },
-                minWidth: 88,
-                height: 40,
-              }}
-            >
-              Reset
-            </Button>
           </Stack>
-        </Stack>
-      </Paper>
+        </Paper>
+      </AccordionDetails>
     </Accordion>
   );
 }

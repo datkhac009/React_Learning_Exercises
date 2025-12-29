@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import { useCreateProduct } from "../../hooks/useCreateProduct";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { productSchema } from "../../utils/validationSchema";
 
 function CreateItemProduct({ open, onClose, onRefetch }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -20,6 +22,7 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, formState, reset, control } = useForm({
+     resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       category: "",
@@ -101,11 +104,7 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
               error={!!errors.name}
               helperText={errors.name?.message}
               defaultValue=""
-              {...register("name", {
-                required: "Name is required",
-                minLength: { value: 3, message: "Min 3 characters" },
-                maxLength: { value: 60, message: "Max 60 characters" },
-              })}
+              {...register("name")}
             />
 
             {/* Category */}
@@ -117,9 +116,7 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
               error={!!errors.category}
               helperText={errors.category?.message}
               defaultValue=""
-              {...register("category", {
-                required: "Category is required",
-              })}
+              {...register("category")}
             >
               {CATEGORIES.map((category) => (
                 <MenuItem key={category} value={category}>
@@ -137,12 +134,7 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
               error={!!errors.price}
               helperText={errors.price?.message}
               defaultValue=""
-              {...register("price", {
-                required: "Price is required",
-                min: { value: 1, message: "Price must be > 0" },
-                max: { value: 100000000, message: "Price must be < 100,000,000" },
-
-              })}
+              {...register("price")}
             />
 
             {/* Stock */}
@@ -154,11 +146,7 @@ function CreateItemProduct({ open, onClose, onRefetch }) {
               error={!!errors.stock}
               helperText={errors.stock?.message}
               defaultValue=""
-              {...register("stock", {
-                required: "Stock is required",
-                valueAsNumber: true,
-                min: { value: 0, message: "Stock must be ≥ 0" },
-              })}
+              {...register("stock")}
             />
 
             {/* Status */}

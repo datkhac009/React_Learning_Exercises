@@ -97,10 +97,10 @@ function ProductTable({
     setEditingProduct(null);
   };
 
-  return (
+return (
     <>
       <TableContainer sx={{ maxHeight: 400, marginTop: "0.5rem" }}>
-        <Table stickyHeader size="small">
+        <Table stickyHeader size="small" sx={{ tableLayout: "fixed" }}>
           <TableHead>
             <TableRow
               sx={{
@@ -124,10 +124,13 @@ function ProductTable({
                 },
               }}
             >
-              <TableCell>#</TableCell>
+              <TableCell sx={{ width: "5%" }}>#</TableCell>
 
               {/* NAME COLUMN */}
-              <TableCell sortDirection={sortField === "name" ? safeDir : false}>
+              <TableCell 
+                sx={{ width: "20%" }}
+                sortDirection={sortField === "name" ? safeDir : false}
+              >
                 <TableSortLabel
                   active={sortField === "name"}
                   direction={sortField === "name" ? safeDir : "asc"}
@@ -137,11 +140,12 @@ function ProductTable({
                 </TableSortLabel>
               </TableCell>
 
-              {/* CATEGORY  */}
-              <TableCell>Category</TableCell>
+              {/* CATEGORY */}
+              <TableCell sx={{ width: "12%" }}>Category</TableCell>
 
-              {/*  PRICE COLUMN */}
+              {/* PRICE COLUMN */}
               <TableCell
+                sx={{ width: "13%" }}
                 sortDirection={sortField === "price" ? safeDir : false}
               >
                 <TableSortLabel
@@ -153,8 +157,9 @@ function ProductTable({
                 </TableSortLabel>
               </TableCell>
 
-              {/*  STOCK COLUMN */}
+              {/* STOCK COLUMN */}
               <TableCell
+                sx={{ width: "10%" }}
                 sortDirection={sortField === "stock" ? safeDir : false}
               >
                 <TableSortLabel
@@ -166,11 +171,12 @@ function ProductTable({
                 </TableSortLabel>
               </TableCell>
 
-              {/* STATUS -  */}
-              <TableCell>Status</TableCell>
+              {/* STATUS */}
+              <TableCell sx={{ width: "10%" }}>Status</TableCell>
 
-              {/*  CREATED  */}
+              {/* CREATED */}
               <TableCell
+                sx={{ width: "12%" }}
                 sortDirection={sortField === "createdAt" ? safeDir : false}
               >
                 <TableSortLabel
@@ -182,7 +188,7 @@ function ProductTable({
                 </TableSortLabel>
               </TableCell>
 
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right" sx={{ width: "18%" }}>Actions</TableCell>
             </TableRow>
           </TableHead>
 
@@ -200,7 +206,13 @@ function ProductTable({
                   }}
                 >
                   <TableCell>{actualIndex}</TableCell>
-                  <TableCell>{p.name}</TableCell>
+                  <TableCell sx={{ 
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }}>
+                    {p.name}
+                  </TableCell>
                   <TableCell>{p.category}</TableCell>
                   <TableCell>{formatVND(p.price)}</TableCell>
                   <TableCell>{p.stock}</TableCell>
