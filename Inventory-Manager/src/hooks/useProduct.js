@@ -14,11 +14,13 @@ export const useProduct = (url) => {
     const abort = new AbortController();
 
     const getProduct = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
         const res = await fetch(`${url.replace(/\/$/, "")}/products`, {
           signal: abort.signal,
         });
-        setIsLoading(true);
 
         if (!res.ok) {
           throw new Error(`Không thể fetch dữ liệu: Status ${res.status}`);
@@ -29,14 +31,11 @@ export const useProduct = (url) => {
         setProduct(data);
         setError(null);
       } catch (error) {
-        if (error.name === "AbortError") {
-          console.log("Fetch đã bị hủy bỏ");
-        } else {
-          setError(error.message);
-          setProduct([]);
-        }
+        if (error.name === "AbortError") return;
+        setError(error.message);
+        setProduct([]);
       } finally {
-        setIsLoading(false);
+        if (!abort.signal.aborted) setIsLoading(false);
       }
     };
 
