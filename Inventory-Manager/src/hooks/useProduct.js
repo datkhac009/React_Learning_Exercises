@@ -27,7 +27,6 @@ export const useProduct = (url) => {
         }
 
         const data = await res.json();
-        console.log(data);
         setProduct(data);
         setError(null);
       } catch (error) {

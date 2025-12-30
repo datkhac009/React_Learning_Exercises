@@ -8,10 +8,10 @@ import {
   IconButton,
 } from "@mui/material";
 import { Brightness4, Brightness7, Add } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, memo } from "react";
 import CreateItemProduct from "./../modules/product/CreateItemProduct";
 
-function Header({ darkMode, setDarkMode, refetchdata }) {
+const Header = memo(function Header({ darkMode, setDarkMode, refetchdata }) {
   const [openCreate, setOpenCreate] = useState(false);
   const handleOpen = () => setOpenCreate(true);
   const handleClose = () => setOpenCreate(false);
@@ -112,6 +112,6 @@ function Header({ darkMode, setDarkMode, refetchdata }) {
       />
     </AppBar>
   );
-}
+});
 
 export default Header;

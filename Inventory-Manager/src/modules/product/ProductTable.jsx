@@ -15,7 +15,7 @@ import {
   Stack,
   Box,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, memo } from "react";
 import Spinner from "../../components/Spinner";
 import { formatDate } from "../../utils/date";
 import { useDelete } from "../../hooks/useDelete";
@@ -24,7 +24,7 @@ import EditItemProduct from "./EditItemProduct";
 import { formatVND } from "../../utils/priceVnd";
 import { Margin } from "@mui/icons-material";
 
-function ProductTable({
+const ProductTable = memo(function ProductTable({
   toggleSort,
   products,
   loading,
@@ -309,6 +309,6 @@ return (
       />
     </>
   );
-}
+});
 
 export default ProductTable;
